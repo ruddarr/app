@@ -51,6 +51,7 @@ struct EpisodeView: View {
             .padding(.vertical)
             .containerHorizontalMargins()
         }
+        .scrollContainerMargins()
         .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {

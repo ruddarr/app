@@ -57,6 +57,28 @@ struct ToolbarFilterBadge: View {
     }
 }
 
+struct ToolbarFilterLabel: View {
+    var active: Bool
+    var tint: Color
+
+    var body: some View {
+        Group {
+            if active {
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(tint, Color.primary)
+            } else {
+                Image(systemName: "line.3.horizontal.decrease")
+            }
+        }
+        .background {
+            Text("Filter").opacity(0)
+        }
+        .accessibilityLabel("Filter")
+    }
+}
+
 struct MonitorBookmark: View {
     var monitored: Bool
     var loading: Bool = false

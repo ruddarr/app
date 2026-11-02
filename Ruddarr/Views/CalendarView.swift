@@ -18,7 +18,7 @@ struct CalendarView: View {
     @State var displayedInstance: String = .all
     @State var displayedMediaType: CalendarMediaType = .all
 
-    @Environment(AppSettings.self) private var settings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
     @Environment(\.deviceType) private var deviceType
@@ -41,6 +41,7 @@ struct CalendarView: View {
                 }
             }
             .containerHorizontalMargins()
+            .scrollContainerMargins()
             .scrollIndicators(.never)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {

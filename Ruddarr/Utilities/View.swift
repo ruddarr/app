@@ -38,15 +38,15 @@ extension View {
 
     @ViewBuilder
     func containerHorizontalMargins() -> some View {
-        #if os(iOS)
-            if #available(iOS 27.1, *) {
-                contentMargins(for: .container, edges: .horizontal)
-            } else {
-                scenePadding(.horizontal)
-            }
-        #else
+        if #available(iOS 27.1, macOS 9999, *) {
+            self // margins are added to the `ScrollView` by `scrollContainerMargins()`
+        } else {
             scenePadding(.horizontal)
-        #endif
+        }
+    }
+
+    func scrollContainerMargins() -> some View {
+        modifier(ScrollContainerMargins())
     }
 
     @ViewBuilder
@@ -147,6 +147,29 @@ private struct FoldedModifier: ViewModifier {
             }
         #else
             content
+        #endif
+    }
+}
+
+private struct ScrollContainerMargins: ViewModifier {
+    @State private var margins = EdgeInsets()
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                content
+                    .contentMargins(.horizontal, margins, for: .scrollContent)
+                    .frame(maxWidth: .infinity)
+                    .onGeometryChange(for: EdgeInsets.self) { proxy in
+                        proxy.contentMargins(for: .container, edges: .horizontal)
+                    } action: { value in
+                        if value.leading > 0 || value.trailing > 0 { margins = value }
+                    }
+            } else {
+                content // margins are added to the content by `containerHorizontalMargins()`
+            }
+        #else
+            content // margins are added to the content by `containerHorizontalMargins()`
         #endif
     }
 }

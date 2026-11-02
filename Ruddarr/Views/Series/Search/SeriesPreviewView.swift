@@ -21,6 +21,7 @@ struct SeriesPreviewView: View {
                 .containerHorizontalMargins()
                 .environment(settings)
         }
+        .scrollContainerMargins()
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarNextButton

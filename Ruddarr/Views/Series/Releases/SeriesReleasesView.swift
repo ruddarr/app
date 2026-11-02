@@ -8,6 +8,7 @@ struct SeriesReleasesView: View {
     @State private var releases: [(release: SeriesRelease, runtime: Int)] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var selectedRelease: SeriesRelease?
+    @State private var searchPresented = false
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
@@ -34,7 +35,7 @@ struct SeriesReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search)
+        .searchable(text: $sort.search, isPresented: $searchPresented)
         .toolbar {
             toolbarButtons
         }
@@ -75,7 +76,8 @@ struct SeriesReleasesView: View {
                 release: release,
                 seriesId: series.id,
                 seasonId: seasonId,
-                episodeId: episodeId
+                episodeId: episodeId,
+                searchPresented: $searchPresented
             )
             .environment(instance)
             .environment(settings)
@@ -163,13 +165,17 @@ extension SeriesReleasesView {
                 protocolPicker
             }
 
-            indexersPicker
+            if !instance.releases.indexers.isEmpty {
+                indexersPicker
+            }
 
             if !instance.releases.releaseGroups.isEmpty {
                 releaseGroupPicker
             }
 
-            qualityPicker
+            if !instance.releases.qualities.isEmpty {
+                qualityPicker
+            }
 
             if !instance.releases.languages.isEmpty {
                 languagePicker
@@ -189,18 +195,7 @@ extension SeriesReleasesView {
                 Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
             }
         } label: {
-            Label {
-                Text("Filter")
-            } icon: {
-                if sort.hasFilter {
-                    Image("filters.badge")
-                        .offset(y: 3)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint, .primary)
-                } else {
-                    Image(systemName: "line.3.horizontal.decrease")
-                }
-            }
+            ToolbarFilterLabel(active: sort.hasFilter, tint: settings.theme.tint)
         }
         .menuIndicator(.hidden)
     }

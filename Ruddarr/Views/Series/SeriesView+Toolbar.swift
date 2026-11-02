@@ -60,18 +60,10 @@ extension SeriesView {
                 }
             }.pickerStyle(.menu)
         } label: {
-            Label {
-                Text("Filter")
-            } icon: {
-                if sort.filter != .all || sort.folder != .all {
-                    Image("filters.badge")
-                        .offset(y: 3)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint, .primary)
-                } else {
-                    Image(systemName: "line.3.horizontal.decrease")
-                }
-            }
+            ToolbarFilterLabel(
+                active: sort.filter != .all || sort.folder != .all,
+                tint: settings.theme.tint
+            )
         }
     }
 

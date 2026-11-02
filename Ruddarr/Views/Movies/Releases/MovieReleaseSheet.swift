@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieReleaseSheet: View {
     var release: MovieRelease
     var movie: Movie
+    @Binding var searchPresented: Bool
 
     @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
@@ -225,6 +226,7 @@ struct MovieReleaseSheet: View {
             return
         }
 
+        searchPresented = false
         dismiss()
 
         if let inCalendarSheet {
@@ -247,7 +249,7 @@ struct MovieReleaseSheet: View {
 
     Text(verbatim: "Sheet")
         .sheet(isPresented: .constant(true)) {
-            MovieReleaseSheet(release: release, movie: movies[1])
+            MovieReleaseSheet(release: release, movie: movies[1], searchPresented: .constant(false))
                 .presentationDetents([.medium])
                 .presentationBackground(.sheetBackground)
         }

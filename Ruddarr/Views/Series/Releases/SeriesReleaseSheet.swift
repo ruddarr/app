@@ -5,6 +5,7 @@ struct SeriesReleaseSheet: View {
     var seriesId: Series.ID
     var seasonId: Season.ID?
     var episodeId: Episode.ID?
+    @Binding var searchPresented: Bool
 
     @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
@@ -236,6 +237,7 @@ struct SeriesReleaseSheet: View {
             return
         }
 
+        searchPresented = false
         dismiss()
 
         if let inCalendarSheet {
@@ -257,7 +259,8 @@ struct SeriesReleaseSheet: View {
 
     return SeriesReleaseSheet(
         release: release,
-        seriesId: release.seriesId ?? 0
+        seriesId: release.seriesId ?? 0,
+        searchPresented: .constant(false)
     )
         .withAppState()
 }

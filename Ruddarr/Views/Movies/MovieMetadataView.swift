@@ -22,6 +22,7 @@ struct MovieMetadataView: View {
             .padding(.vertical)
             .containerHorizontalMargins()
         }
+        .scrollContainerMargins()
         .navigationTitle(movie.title)
         .safeNavigationBarTitleDisplayMode(.inline)
         .onAppear {

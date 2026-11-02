@@ -51,6 +51,7 @@ struct MoviesView: View {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
                         }
+                        .scrollContainerMargins()
                         .onAppear {
                             scrollView = proxy
                         }
