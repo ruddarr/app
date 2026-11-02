@@ -5,12 +5,12 @@ All notable changes to Ruddarr are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.1.2 - 2026-11-02
 ### Fixed
-- Hide Indexer and Quality filters in interactive search until options are available
-- Fix grids and detail screens not scrolling to the end on iOS 27.1 and later
-- Use the selected theme color for active filter badges
-- Prevent crash when downloading a release after searching in a calendar sheet
+- Hide Indexer and Quality filters until search finished
+- Fixed grids not scrolling to the end on iOS 27.1 and later
+- Fixed the color of active filter badges  
+- Fixed crash when downloading a release using the search field
 
 ## 2.1.1 - 2026-10-29
 ### Changed
