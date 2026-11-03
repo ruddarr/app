@@ -8,6 +8,7 @@ struct SeriesReleaseFlags {
         32: .freeleech75,
         64: .freeleech25,
         128: .nuked,
+        256: .subtitles,
     ]
 
     static func parse(_ value: Int) -> [SeriesReleaseFlag] {
@@ -24,6 +25,7 @@ enum SeriesReleaseFlag {
     case freeleech75
     case freeleech25
     case nuked
+    case subtitles
 
     var label: String {
         switch self {
@@ -35,6 +37,7 @@ enum SeriesReleaseFlag {
         case .freeleech75: "Freeleech75"
         case .freeleech25: "Freeleech25"
         case .nuked: "Nuked"
+        case .subtitles: "Subtitles"
         }
     }
 }
