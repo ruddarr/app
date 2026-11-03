@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Show release details for failed and ignored history events
 
 Fixed
