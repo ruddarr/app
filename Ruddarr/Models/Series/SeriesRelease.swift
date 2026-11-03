@@ -298,78 +298,28 @@ struct SeriesRelease: Identifiable, Codable {
     }
 }
 
-extension SeriesRelease {
-    /// Sonarr v5 nests what v3 returns flat under `release`, `parsedInfo` and `decision`.
-    private enum NestedKeys: String, CodingKey {
-        case release
-        case parsedInfo
-        case decision
-        case seasonNumbers
-    }
-
-    private struct Rejection: Decodable {
-        let message: String
-    }
-
-    init(from decoder: any Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let nested = try decoder.container(keyedBy: NestedKeys.self)
-        let isNested = nested.contains(.release)
-
-        let release = try isNested ? nested.nestedContainer(keyedBy: CodingKeys.self, forKey: .release) : values
-        let parsed = try isNested ? nested.nestedContainer(keyedBy: CodingKeys.self, forKey: .parsedInfo) : values
-        let decision = try isNested ? nested.nestedContainer(keyedBy: CodingKeys.self, forKey: .decision) : values
-
-        guid = try release.decode(String.self, forKey: .guid)
-        title = try release.decode(String.self, forKey: .title)
-        size = try release.decode(Int.self, forKey: .size)
-        age = try release.decode(Int.self, forKey: .age)
-        ageMinutes = try release.decode(Float.self, forKey: .ageMinutes)
-        network = try release.decode(ReleaseProtocol.self, forKey: .network)
-        indexerId = try release.decode(Int.self, forKey: .indexerId)
-        indexer = try release.decodeIfPresent(String.self, forKey: .indexer)
-        indexerFlags = try release.decodeIfPresent(Int.self, forKey: .indexerFlags)
-        seeders = try release.decodeIfPresent(Int.self, forKey: .seeders)
-        leechers = try release.decodeIfPresent(Int.self, forKey: .leechers)
-        infoUrl = try release.decodeIfPresent(String.self, forKey: .infoUrl)
-
-        seriesTitle = try parsed.decodeIfPresent(String.self, forKey: .seriesTitle)
-        releaseGroup = try parsed.decodeIfPresent(String.self, forKey: .releaseGroup)
-        quality = try parsed.decode(MediaQuality.self, forKey: .quality)
-        fullSeason = try parsed.decode(Bool.self, forKey: .fullSeason)
-        special = try parsed.decode(Bool.self, forKey: .special)
-        isPossibleSpecialEpisode = try parsed.decode(Bool.self, forKey: .isPossibleSpecialEpisode)
-        episodeNumbers = try parsed.decodeIfPresent([Episode.ID].self, forKey: .episodeNumbers)
-
-        rejected = try decision.decode(Bool.self, forKey: .rejected)
-
-        if isNested {
-            let seasonNumbers = try nested.nestedContainer(keyedBy: NestedKeys.self, forKey: .parsedInfo)
-                .decode([Season.ID].self, forKey: .seasonNumbers)
-
-            seasonNumber = seasonNumbers.first ?? -1
-            rejections = try decision.decode([Rejection].self, forKey: .rejections).map(\.message)
-        } else {
-            seasonNumber = try values.decode(Season.ID.self, forKey: .seasonNumber)
-            rejections = try values.decode([String].self, forKey: .rejections)
+/// Sonarr v5 nests what v3 returns flat under `release`, `parsedInfo` and `decision`,
+/// so this flattens v5 releases into the v3 shape that `SeriesRelease` decodes.
+final class SonarrV5ReleaseDecoder: JSONDecoder, @unchecked Sendable {
+    override func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        guard let releases = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            return try super.decode(type, from: data)
         }
 
-        history = try values.decodeIfPresent(SeriesReleaseHistory.self, forKey: .history)
-        downloadAllowed = try values.decode(Bool.self, forKey: .downloadAllowed)
-        episodeRequested = try values.decode(Bool.self, forKey: .episodeRequested)
-        customFormats = try values.decodeIfPresent([MediaCustomFormat].self, forKey: .customFormats)
-        customFormatScore = try values.decodeIfPresent(Int.self, forKey: .customFormatScore)
-        languages = try values.decodeIfPresent([MediaLanguage].self, forKey: .languages)
-        qualityWeight = try values.decode(Int.self, forKey: .qualityWeight)
-        releaseWeight = try values.decode(Int.self, forKey: .releaseWeight)
-        shouldOverride = try values.decodeIfPresent(Bool.self, forKey: .shouldOverride)
-        seriesId = try values.decodeIfPresent(Series.ID.self, forKey: .seriesId)
-        mappedSeriesId = try values.decodeIfPresent(Series.ID.self, forKey: .mappedSeriesId)
-        episodeId = try values.decodeIfPresent(Series.ID.self, forKey: .episodeId)
-        episodeIds = try values.decodeIfPresent([Series.ID].self, forKey: .episodeIds)
-        mappedSeasonNumber = try values.decodeIfPresent(Season.ID.self, forKey: .mappedSeasonNumber)
-        mappedEpisodeNumbers = try values.decodeIfPresent([Episode.ID].self, forKey: .mappedEpisodeNumbers)
-        mappedEpisodeInfo = try values.decodeIfPresent([SeriesReleaseEpisode].self, forKey: .mappedEpisodeInfo)
+        let flattened = releases.map { release in
+            var flat = release
+
+            for key in ["release", "parsedInfo", "decision"] {
+                flat.merge(release[key] as? [String: Any] ?? [:]) { current, _ in current }
+            }
+
+            flat["seasonNumber"] = (flat["seasonNumbers"] as? [Int])?.first ?? -1
+            flat["rejections"] = (flat["rejections"] as? [[String: Any]])?.compactMap { $0["message"] }
+
+            return flat
+        }
+
+        return try super.decode(type, from: JSONSerialization.data(withJSONObject: flattened))
     }
 }
 

@@ -143,7 +143,9 @@ extension SonarrAPI {
                     url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
                 }
 
-                return try await API.request(url: url, instance: instance, timeout: .releaseSearch)
+                let decoder = version == "v5" ? SonarrV5ReleaseDecoder() : JSONDecoder()
+
+                return try await API.request(url: url, instance: instance, timeout: .releaseSearch, decoder: decoder)
             }
         }, series: { seriesId, instance in
             let url = try await instance.baseURL()
