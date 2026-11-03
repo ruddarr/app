@@ -85,6 +85,16 @@ struct DownloadReleaseCommand: Codable {
     // Sonarr (episode)
     private(set) var episodeId: Int?
 
+    // Sonarr v5 reads the season and episode from `searchInfo`, v3 reads the fields above.
+    // Both ignore the fields they don't know.
+    private(set) var searchInfo: SearchInfo?
+
+    struct SearchInfo: Codable {
+        var seriesId: Int?
+        var seasonNumber: Int?
+        var episodeId: Int?
+    }
+
     init(guid: String, indexerId: Int, movieId: Int?) {
         self.guid = guid
         self.indexerId = indexerId
@@ -96,36 +106,19 @@ struct DownloadReleaseCommand: Codable {
         self.indexerId = indexerId
         self.seriesId = seriesId
         self.seasonNumber = seasonId
+
+        if seriesId != nil || seasonId != nil {
+            self.searchInfo = SearchInfo(seriesId: seriesId, seasonNumber: seasonId)
+        }
     }
 
     init(guid: String, indexerId: Int, episodeId: Int?) {
         self.guid = guid
         self.indexerId = indexerId
         self.episodeId = episodeId
-    }
 
-    /// Sonarr v5 moves the series, season and episode into `searchInfo`.
-    var sonarrV5: SonarrV5ReleaseGrab {
-        let hasSearchInfo = seriesId != nil || seasonNumber != nil || episodeId != nil
-
-        return SonarrV5ReleaseGrab(
-            guid: guid,
-            indexerId: indexerId,
-            searchInfo: hasSearchInfo
-                ? .init(seriesId: seriesId, seasonNumber: seasonNumber, episodeId: episodeId)
-                : nil
-        )
-    }
-}
-
-struct SonarrV5ReleaseGrab: Encodable {
-    let guid: String
-    let indexerId: Int
-    let searchInfo: SearchInfo?
-
-    struct SearchInfo: Encodable {
-        let seriesId: Int?
-        let seasonNumber: Int?
-        let episodeId: Int?
+        if episodeId != nil {
+            self.searchInfo = SearchInfo(episodeId: episodeId)
+        }
     }
 }
