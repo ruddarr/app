@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Show the pending folder while a series is being moved to another root folder
 
 Fixed
