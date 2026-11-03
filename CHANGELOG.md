@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- Show the Subtitles flag on Sonarr releases
 - Show downloads in the activity queue that could not be matched to a movie or series
 
 ### Fixed

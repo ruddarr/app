@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Show downloads in the activity queue that could not be matched to a movie or series
 
 Fixed
