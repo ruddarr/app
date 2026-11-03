@@ -44,6 +44,7 @@ struct MovieSort: Hashable {
         case byYear
         case byAdded
         case byRating
+        case byPopularity
         case byGrabbed
         case bySize
         case byRelease
@@ -54,6 +55,7 @@ struct MovieSort: Hashable {
             case .byYear: Label(String(localized: "Year", comment: "Media grid sorting"), systemImage: "calendar")
             case .byAdded: Label(String(localized: "Added", comment: "Media grid sorting"), systemImage: "calendar.badge.plus")
             case .byRating: Label(String(localized: "Rating", comment: "Media grid sorting"), systemImage: "star")
+            case .byPopularity: Label(String(localized: "Popularity", comment: "Media grid sorting"), systemImage: "flame")
             case .byGrabbed: Label(String(localized: "Grabbed", comment: "Media grid sorting"), systemImage: "arrow.down.circle")
             case .bySize: Label(String(localized: "File Size", comment: "Media grid sorting"), systemImage: "internaldrive")
             case .byRelease: Label(String(localized: "Digital Release", comment: "Media grid sorting"), systemImage: "play.tv")
@@ -69,6 +71,7 @@ struct MovieSort: Hashable {
             case .byGrabbed: (movie.movieFile?.dateAdded ?? .distantPast).timeIntervalSince1970
             case .byRelease: (movie.digitalRelease ?? .distantPast).timeIntervalSince1970
             case .byRating: Double(movie.ratingScore)
+            case .byPopularity: Double(movie.popularity ?? 0)
             }
         }
     }

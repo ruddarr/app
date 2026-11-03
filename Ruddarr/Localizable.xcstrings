@@ -4188,6 +4188,17 @@
         }
       }
     },
+    "Popularity" : {
+      "comment" : "Media grid sorting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popularity"
+          }
+        }
+      }
+    },
     "Posters" : {
       "comment" : "Grid item display style",
       "localizations" : {

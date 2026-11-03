@@ -16,6 +16,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
 
     let title: String
     let sortTitle: String
+    let originalTitle: String?
     let studio: String?
     let year: Int
     let runtime: Int
@@ -59,6 +60,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         case imdbId
         case title
         case sortTitle
+        case originalTitle
         case alternateTitles
         case studio
         case year
@@ -225,7 +227,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     }
 
     func alternateTitlesString() -> String {
-        alternateTitles.map { $0.title }.joined(separator: " ")
+        (alternateTitles.map { $0.title } + [originalTitle].compactMap { $0 }).joined(separator: " ")
     }
 
     struct MovieRatings: Equatable, Codable {
@@ -336,7 +338,7 @@ extension Movie: InstanceScoped {
 extension Movie {
     static var void: Self {
         .init(
-            tmdbId: 0, imdbId: "", title: "", sortTitle: "", studio: "", year: 0, runtime: 0, overview: "", certification: "", youTubeTrailerId: "",
+            tmdbId: 0, imdbId: "", title: "", sortTitle: "", originalTitle: nil, studio: "", year: 0, runtime: 0, overview: "", certification: "", youTubeTrailerId: "",
             originalLanguage: nil, alternateTitles: [], genres: [], ratings: nil, popularity: 0, status: .deleted, isAvailable: false,
             minimumAvailability: .deleted, monitored: false, qualityProfileId: 0, sizeOnDisk: 0, hasFile: false, path: "",
             relativePath: "", folderName: "", rootFolderPath: "", added: .now, inCinemas: nil, physicalRelease: nil,
