@@ -86,7 +86,7 @@ struct SeasonView: View {
     }
 
     var season: Season {
-        let fallback = Season(seasonNumber: seasonId, monitored: false, statistics: nil)
+        let fallback = Season(seasonNumber: seasonId, monitored: false, title: nil, statistics: nil)
         return series.seasonById(seasonId) ?? fallback
     }
 

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Show the Subtitles flag on Sonarr releases
 - Show when a release was previously grabbed or failed in Radarr's interactive search
+- Show season titles on the series screen
 
 ### Fixed
 - Open the exact movie on Letterboxd instead of a search
