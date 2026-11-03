@@ -1,2 +1,6 @@
+Added
+- Open movies in TMDb
+
 Fixed
+- Open the exact movie on Letterboxd instead of a search
 - Show multi-season packs as such in history and keep their release type when importing manually
