@@ -85,8 +85,7 @@ struct DownloadReleaseCommand: Codable {
     // Sonarr (episode)
     private(set) var episodeId: Int?
 
-    // Sonarr v5 reads the season and episode from `searchInfo`, v3 reads the fields above.
-    // Both ignore the fields they don't know.
+    // Sonarr v5
     private(set) var searchInfo: SearchInfo?
 
     struct SearchInfo: Codable {

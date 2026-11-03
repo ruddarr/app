@@ -133,9 +133,9 @@ extension SonarrAPI {
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
         }, releases: { seriesId, seasonId, episodeId, instance in
-            try await instance.preferringSonarrV5 { api in
+            try await instance.withAPIVersion { version in
                 var url = try await instance.baseURL()
-                    .appending(path: "/api/\(api)/release")
+                    .appending(path: "/api/\(version)/release")
 
                 if let episode = episodeId {
                     url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
@@ -243,10 +243,9 @@ extension InstanceAPI {
 
             return try await API.request(method: .post, url: url, body: command.payload, instance: instance)
         }, downloadRelease: { payload, instance in
-            // Sonarr caches releases per API version, so grab through the one that searched
-            try await instance.preferringSonarrV5 { api in
+            try await instance.withAPIVersion { version in
                 let url = try await instance.baseURL()
-                    .appending(path: "/api/\(api)/release")
+                    .appending(path: "/api/\(version)/release")
 
                 return try await API.request(method: .post, url: url, body: payload, instance: instance, timeout: .sluggish)
             }
@@ -349,14 +348,14 @@ extension InstanceAPI {
 }
 
 private extension Instance {
-    /// Sends `request` to `/api/v5` on Sonarr v5 and later, otherwise to `/api/v3`.
-    /// Falls back to v3 on the empty 404 a Sonarr without v5 returns, in case the stored version is stale.
-    func preferringSonarrV5<Response>(_ request: (_ api: String) async throws -> Response) async throws -> Response {
+    /// Calls `request` with `v5` on Sonarr v5 and later, otherwise with `v3`.
+    /// Runs `request` again with `v3` on the empty 404 a Sonarr without v5 returns, in case the stored version is stale.
+    func withAPIVersion<Response>(_ request: (_ version: String) async throws -> Response) async throws -> Response {
         if type == .sonarr, let major = version?.split(separator: ".").first.flatMap({ Int($0) }), major >= 5 {
             do {
                 return try await request("v5")
             } catch API.Error.badStatusCode(code: 404) {
-                // fall back to v3
+                return try await request("v3")
             }
         }
 
