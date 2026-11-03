@@ -13,8 +13,17 @@ struct SeasonCard: View {
     var body: some View {
         LabeledGroupBox {
             HStack(spacing: 12) {
-                Text(season.label)
-                    .fontWeight(.medium)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(season.label)
+                        .fontWeight(.medium)
+
+                    if let subtitle = season.subtitle {
+                        Text(subtitle)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                }
 
                 if let progress = season.progressLabel {
                     Text(progress)

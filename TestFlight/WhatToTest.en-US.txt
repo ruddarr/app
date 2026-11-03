@@ -1,2 +1,6 @@
+Added
+- Show season titles on the series screen
+- Label H.266 (VVC) video in file details
+
 Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually
