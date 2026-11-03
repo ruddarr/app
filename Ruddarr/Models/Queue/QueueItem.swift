@@ -36,7 +36,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let type: ReleaseProtocol
 
     let size: Float
-    let sizeleft: Float
+    let sizeleft: Float?
     let timeleft: String?
 
     let languages: [MediaLanguage]?
@@ -191,7 +191,8 @@ struct QueueItem: Codable, Identifiable, Equatable {
     }
 
     var progressLabel: String {
-        let progress = sizeleft > 0 ? (size - sizeleft) / size : 1
+        let remaining = sizeleft ?? size
+        let progress = remaining > 0 ? (size - remaining) / size : 1
 
         guard progress < 0.9995 else {
             return 100.formatted(.percent)

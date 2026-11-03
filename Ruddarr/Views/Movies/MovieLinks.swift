@@ -60,7 +60,7 @@ struct MovieLinks: View {
             }
         #endif
 
-        return "https://letterboxd.com/search/films/\(encodedTitle)/"
+        return "https://letterboxd.com/tmdb/\(movie.tmdbId)"
     }
 
     var callsheet: String? {
