@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Show the Subtitles flag on Sonarr releases
+- Choose the episode order (aired, DVD, etc.) when adding a series to Sonarr v5
 
 ### Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually

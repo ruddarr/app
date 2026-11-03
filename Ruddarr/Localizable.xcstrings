@@ -1768,6 +1768,16 @@
         }
       }
     },
+    "Episode Order" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode Order"
+          }
+        }
+      }
+    },
     "Episode Renamed" : {
       "comment" : "Title of history event type",
       "localizations" : {
