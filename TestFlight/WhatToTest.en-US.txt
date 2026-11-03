@@ -3,3 +3,4 @@ Added
 
 Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually
+- Fixed the Open In button not matching the other buttons on macOS

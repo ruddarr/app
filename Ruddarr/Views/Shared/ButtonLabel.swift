@@ -172,8 +172,8 @@ struct MacMenuButtonLabelModifier: ViewModifier {
             content
                 .padding(.vertical, 4)
                 .background {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(.tertiarySystemFill)
+                    Capsule()
+                        .fill(.secondarySystemFill)
                 }
         #else
             content
