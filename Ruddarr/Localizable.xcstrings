@@ -3081,6 +3081,16 @@
         }
       }
     },
+    "Moving To" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moving To"
+          }
+        }
+      }
+    },
     "Multi-Episode" : {
       "localizations" : {
         "en" : {

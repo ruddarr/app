@@ -32,6 +32,11 @@ extension SeriesDetails {
                 value: series.rootFolderPath ?? "Unknown",
                 link: SeriesPath.edit(series.id)
             ),
+            series.pendingPath?.isEmpty ?? true ? nil : InformationItem(
+                label: String(localized: "Moving To"),
+                value: series.pendingPath ?? "",
+                link: SeriesPath.edit(series.id)
+            ),
             InformationItem(
                 label: String(localized: "New Seasons"),
                 value: series.monitorNewItems == .all
