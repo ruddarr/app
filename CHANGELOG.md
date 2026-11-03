@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show when a release was previously grabbed or failed in Radarr's interactive search
 
 ### Fixed
+- Show x265 video as H.265 in file details
 - Show multi-season packs as such in history and keep their release type when importing manually
 - Fixed the Open In button not matching the other buttons on macOS
 
