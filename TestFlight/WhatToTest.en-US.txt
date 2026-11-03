@@ -1,2 +1,2 @@
-Fixed
-- Show multi-season packs as such in history and keep their release type when importing manually
+Added
+- Show release details for failed and ignored history events
