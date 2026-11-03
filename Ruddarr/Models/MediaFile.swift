@@ -116,7 +116,12 @@ struct FileMediaInfo: Equatable, Codable {
         label = label.replacingOccurrences(of: "x265", with: "H.265")
         label = label.replacingOccurrences(of: "HEVC", with: "H.265")
 
-        label = label.replacingOccurrences(of: "AC1", with: "AC-1")
+        label = label.replacingOccurrences(of: "h266", with: "H.266")
+        label = label.replacingOccurrences(of: "x266", with: "H.266")
+        label = label.replacingOccurrences(of: "VVC", with: "H.266")
+        label = label.replacingOccurrences(of: "vvc", with: "H.266")
+
+        label = label.replacingOccurrences(of: "VC1", with: "VC-1")
 
         return label
     }
