@@ -8,10 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Show the Subtitles flag on Sonarr releases
+- Show when a release was previously grabbed or failed in Radarr's interactive search
 
 ### Fixed
 - Open the exact movie on Letterboxd instead of a search
+- Show x265 video as H.265 in file details
+- Show VVC video as H.266 and VC1 video as VC-1 in file details
 - Show multi-season packs as such in history and keep their release type when importing manually
+- Fixed the Open In button not matching the other buttons on macOS
 
 ## 2.1.2 - 2026-11-02
 ### Fixed
