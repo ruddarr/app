@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Sort movies by popularity
 - Search movies by their original title
+
 ### Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually
 

@@ -1,3 +1,6 @@
 Added
 - Sort movies by popularity
 - Search movies by their original title
+
+Fixed
+- Show multi-season packs as such in history and keep their release type when importing manually
