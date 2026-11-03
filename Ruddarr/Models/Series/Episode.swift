@@ -22,7 +22,7 @@ struct Episode: Identifiable, Codable, Equatable {
     var monitored: Bool
     let grabbed: Bool?
 
-    let finaleType: EpisodeFinale?
+    @LossyDecoded private(set) var finaleType: EpisodeFinale?
 
     var airDateUtc: Date?
 

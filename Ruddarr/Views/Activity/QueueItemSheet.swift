@@ -123,11 +123,11 @@ struct QueueItemSheet: View {
             .foregroundStyle(.secondary)
         }
         .onAppear {
-            downloadProgress = item.size - item.sizeleft
+            downloadProgress = item.size - (item.sizeleft ?? item.size)
         }
         .onReceive(timer) { _ in
             withAnimation {
-                downloadProgress = item.size - item.sizeleft
+                downloadProgress = item.size - (item.sizeleft ?? item.size)
             }
         }
     }
