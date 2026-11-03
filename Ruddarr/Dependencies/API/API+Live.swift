@@ -276,6 +276,8 @@ extension InstanceAPI {
                     .init(name: "includeMovie", value: "true"),
                     .init(name: "includeSeries", value: "true"),
                     .init(name: "includeEpisode", value: "true"),
+                    .init(name: "includeUnknownMovieItems", value: "true"),
+                    .init(name: "includeUnknownSeriesItems", value: "true"),
                     .init(name: "pageSize", value: "250"),
                 ])
 

@@ -110,6 +110,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     }
 
     var needsManualImport: Bool {
+        (movieId != nil || seriesId != nil) &&
         downloadId != nil &&
         trackedDownloadStatus == .warning &&
         [.importPending, .importBlocked].contains(trackedDownloadState)

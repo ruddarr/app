@@ -1,2 +1,5 @@
+Added
+- Show downloads in the activity queue that could not be matched to a movie or series
+
 Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually
