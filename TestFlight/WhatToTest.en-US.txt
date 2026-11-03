@@ -1,2 +1,5 @@
+Added
+- Show the Subtitles flag on Sonarr releases
+
 Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually
