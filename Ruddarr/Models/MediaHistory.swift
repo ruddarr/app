@@ -224,6 +224,7 @@ func localizeReleaseType(_ value: String?) -> String? {
     if value == "SingleEpisode" { return String(localized: "Single Episode") }
     if value == "MultiEpisode" { return String(localized: "Multi-Episode") }
     if value == "SeasonPack" { return String(localized: "Season Pack") }
+    if value == "MultiSeasonPack" { return String(localized: "Multi-Season Pack") }
 
     return String(localized: "Unknown")
 }
