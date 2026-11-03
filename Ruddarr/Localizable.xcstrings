@@ -3091,6 +3091,16 @@
         }
       }
     },
+    "Multi-Season Pack" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multi-Season Pack"
+          }
+        }
+      }
+    },
     "Multilingual" : {
       "localizations" : {
         "en" : {

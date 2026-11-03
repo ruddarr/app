@@ -220,6 +220,7 @@ enum EpisodeReleaseType: String, Equatable, Codable {
     case singleEpisode // 1
     case multiEpisode // 2
     case seasonPack // 3
+    case multiSeasonPack // 4
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
