@@ -7,7 +7,6 @@ struct MovieLinks: View {
         link(name: "Trakt", url: traktUrl)
         link(name: "Letterboxd", url: letterboxdUrl)
         link(name: "IMDb", url: imdbUrl)
-        link(name: "TMDb", url: tmdbUrl)
 
         if let callsheetUrl = callsheet {
             link(name: "Callsheet", url: callsheetUrl)
@@ -50,10 +49,6 @@ struct MovieLinks: View {
         }
 
         return "https://www.imdb.com/find/?s=tt&q=\(encodedTitle)"
-    }
-
-    var tmdbUrl: String {
-        "https://www.themoviedb.org/movie/\(movie.tmdbId)"
     }
 
     var letterboxdUrl: String {
