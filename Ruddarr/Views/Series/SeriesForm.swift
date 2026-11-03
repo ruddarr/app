@@ -33,6 +33,10 @@ struct SeriesForm: View {
                 qualityProfileField
                 typeField
 
+                if !series.exists, let orders = series.seasonTypes, orders.count > 1 {
+                    episodeOrderField(orders)
+                }
+
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
 
@@ -102,6 +106,15 @@ struct SeriesForm: View {
         .tint(.secondary)
     }
 
+    func episodeOrderField(_ orders: [SeasonTypeOption]) -> some View {
+        Picker("Episode Order", selection: $series.seasonType) {
+            ForEach(orders, id: \.type) { order in
+                Text(order.name).tag(Optional.some(order.type))
+            }
+        }
+        .tint(.secondary)
+    }
+
 #if os(macOS)
     var tagsField: some View {
         LabeledContent("Tags") {
@@ -144,6 +157,10 @@ struct SeriesForm: View {
             series.rootFolderPath = seriesDefaults.rootFolder
             series.seasonFolder = seriesDefaults.seasonFolder
             series.qualityProfileId = seriesDefaults.qualityProfile
+
+            if let orders = series.seasonTypes, !orders.contains(where: { $0.type == series.seasonType }) {
+                series.seasonType = orders.first?.type
+            }
         }
 
         if !instance.qualityProfiles.contains(where: {

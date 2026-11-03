@@ -1,5 +1,10 @@
 import Foundation
 
+struct SeasonTypeOption: Equatable, Codable {
+    let name: String
+    let type: String
+}
+
 struct Season: Identifiable, Equatable, Codable {
     var id: Int { seasonNumber }
     let seasonNumber: Int
