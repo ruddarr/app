@@ -116,6 +116,10 @@ struct SeriesRelease: Identifiable, Codable {
         releaseFlags.contains(.internal)
     }
 
+    var hasSubtitles: Bool {
+        releaseFlags.contains(.subtitles)
+    }
+
     var isProper: Bool {
         quality.revision.isProper
     }
@@ -134,7 +138,7 @@ struct SeriesRelease: Identifiable, Codable {
 
     var hasOtherFlags: Bool {
         releaseFlags.contains {
-            ![.freeleech, .halfleech, .freeleech75, .freeleech25, .nuked].contains($0)
+            ![.freeleech, .halfleech, .freeleech75, .freeleech25, .nuked, .subtitles].contains($0)
         }
     }
 
