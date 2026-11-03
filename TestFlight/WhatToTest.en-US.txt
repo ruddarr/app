@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Open movies in TMDb
 
 Fixed
