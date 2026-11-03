@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Show when a release was previously grabbed or failed in Radarr's interactive search
 
 Fixed
