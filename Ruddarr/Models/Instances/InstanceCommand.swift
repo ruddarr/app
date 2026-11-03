@@ -103,4 +103,29 @@ struct DownloadReleaseCommand: Codable {
         self.indexerId = indexerId
         self.episodeId = episodeId
     }
+
+    /// Sonarr v5 moves the series, season and episode into `searchInfo`.
+    var sonarrV5: SonarrV5ReleaseGrab {
+        let hasSearchInfo = seriesId != nil || seasonNumber != nil || episodeId != nil
+
+        return SonarrV5ReleaseGrab(
+            guid: guid,
+            indexerId: indexerId,
+            searchInfo: hasSearchInfo
+                ? .init(seriesId: seriesId, seasonNumber: seasonNumber, episodeId: episodeId)
+                : nil
+        )
+    }
+}
+
+struct SonarrV5ReleaseGrab: Encodable {
+    let guid: String
+    let indexerId: Int
+    let searchInfo: SearchInfo?
+
+    struct SearchInfo: Encodable {
+        let seriesId: Int?
+        let seasonNumber: Int?
+        let episodeId: Int?
+    }
 }

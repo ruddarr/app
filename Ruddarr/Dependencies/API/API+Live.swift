@@ -133,14 +133,29 @@ extension SonarrAPI {
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
         }, releases: { seriesId, seasonId, episodeId, instance in
-            var url = try await instance.baseURL()
-                .appending(path: "/api/v3/release")
-
-            if let episode = episodeId {
-                url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
+            let query: [URLQueryItem] = if let episode = episodeId {
+                [.init(name: "episodeId", value: String(episode))]
             } else {
-                url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
+                [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))]
             }
+
+            if instance.servesSonarrV5 {
+                do {
+                    let url = try await instance.baseURL()
+                        .appending(path: "/api/v5/release")
+                        .appending(queryItems: query)
+
+                    let releases: [SeriesReleaseV5] = try await API.request(url: url, instance: instance, timeout: .releaseSearch)
+
+                    return releases.map(\.seriesRelease)
+                } catch API.Error.badStatusCode(code: 404) {
+                    // stored version is stale, fall back to v3
+                }
+            }
+
+            let url = try await instance.baseURL()
+                .appending(path: "/api/v3/release")
+                .appending(queryItems: query)
 
             return try await API.request(url: url, instance: instance, timeout: .releaseSearch)
         }, series: { seriesId, instance in
@@ -241,6 +256,18 @@ extension InstanceAPI {
 
             return try await API.request(method: .post, url: url, body: command.payload, instance: instance)
         }, downloadRelease: { payload, instance in
+            // Sonarr caches releases per API version, so grab through the API that searched
+            if instance.servesSonarrV5 {
+                do {
+                    let url = try await instance.baseURL()
+                        .appending(path: "/api/v5/release")
+
+                    return try await API.request(method: .post, url: url, body: payload.sonarrV5, instance: instance, timeout: .sluggish)
+                } catch API.Error.badStatusCode(code: 404) {
+                    // stored version is stale, fall back to v3
+                }
+            }
+
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/release")
 
@@ -340,5 +367,16 @@ extension InstanceAPI {
 
             return try await API.request(method: .delete, url: url, instance: instance)
         })
+    }
+}
+
+private extension Instance {
+    /// Sonarr v5 serves `/api/v5` next to `/api/v3`. A Sonarr v4 instance returns an empty 404 for it.
+    var servesSonarrV5: Bool {
+        guard type == .sonarr, let major = version?.split(separator: ".").first.flatMap({ Int($0) }) else {
+            return false
+        }
+
+        return major >= 5
     }
 }

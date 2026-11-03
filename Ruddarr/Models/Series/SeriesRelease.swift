@@ -1,5 +1,10 @@
 import Foundation
 
+struct SeriesReleaseHistory: Codable {
+    let grabbed: Date?
+    let failed: Date?
+}
+
 struct SeriesRelease: Identifiable, Codable {
     var id: String { guid }
 
@@ -31,6 +36,8 @@ struct SeriesRelease: Identifiable, Codable {
     let releaseWeight: Int
 
     let infoUrl: String?
+
+    let history: SeriesReleaseHistory?
 
     let fullSeason: Bool
     let episodeRequested: Bool
@@ -75,6 +82,7 @@ struct SeriesRelease: Identifiable, Codable {
         case qualityWeight
         case releaseWeight
         case infoUrl
+        case history
         case downloadAllowed
         case fullSeason
         case episodeRequested
