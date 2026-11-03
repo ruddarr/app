@@ -1,2 +1,5 @@
 Added
 - Show when a release was previously grabbed or failed in Radarr's interactive search
+
+Fixed
+- Show multi-season packs as such in history and keep their release type when importing manually
