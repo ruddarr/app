@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- Show the Subtitles flag on Sonarr releases
 - Show every audio and subtitle track in movie file details (Radarr 7.0.1 and later)
 
 ### Fixed

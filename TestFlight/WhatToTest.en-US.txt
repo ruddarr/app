@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Show every audio and subtitle track in movie file details (Radarr 7.0.1 and later)
 
 Fixed
