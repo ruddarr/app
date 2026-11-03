@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Show release details for failed and ignored history events
+
 ### Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually
 
