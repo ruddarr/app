@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Sort movies by popularity
 - Search movies by their original title
 
