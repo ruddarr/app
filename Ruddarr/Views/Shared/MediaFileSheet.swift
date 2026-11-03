@@ -174,6 +174,8 @@ struct MediaFileSheet: View {
                             "--"
                         )
                     }
+
+                    audioTracks(media.audioStreams ?? [])
                 }
             } header: {
                 headline("Audio")
@@ -183,8 +185,33 @@ struct MediaFileSheet: View {
     }
 
     @ViewBuilder
+    func audioTracks(_ streams: [MediaInfoAudioStream]) -> some View {
+        if streams.count > 1 {
+            ForEach(Array(streams.enumerated()), id: \.offset) { _, stream in
+                Divider()
+                row(stream.label, stream.detail)
+            }
+        }
+    }
+
+    @ViewBuilder
     var textMetadata: some View {
-        if let media = file.mediaInfo, let codes = media.subtitleCodes {
+        if let media = file.mediaInfo, let streams = media.subtitleStreams, !streams.isEmpty {
+            Section {
+                VStack(spacing: 6) {
+                    ForEach(Array(streams.enumerated()), id: \.offset) { index, stream in
+                        if index > 0 {
+                            Divider()
+                        }
+
+                        row(stream.label, stream.detail)
+                    }
+                }
+            } header: {
+                headline("Subtitles")
+                    .padding(.bottom, 4)
+            }
+        } else if let media = file.mediaInfo, let codes = media.subtitleCodes {
             Section {
                 VStack(spacing: 6) {
                     row(

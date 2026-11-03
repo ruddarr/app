@@ -1,2 +1,5 @@
+Added
+- Show every audio and subtitle track in movie file details (Radarr 7.0.1 and later)
+
 Fixed
 - Show multi-season packs as such in history and keep their release type when importing manually

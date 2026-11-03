@@ -2029,6 +2029,16 @@
         }
       }
     },
+    "Forced" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forced"
+          }
+        }
+      }
+    },
     "Framerate" : {
       "comment" : "Video frame rate",
       "localizations" : {
@@ -2151,6 +2161,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Health Restored"
+          }
+        }
+      }
+    },
+    "Hearing Impaired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hearing Impaired"
           }
         }
       }
