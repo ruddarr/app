@@ -1,4 +1,5 @@
 Added
+- Show the Subtitles flag on Sonarr releases
 - Show season titles on the series screen
 - Label H.266 (VVC) video in file details
 
