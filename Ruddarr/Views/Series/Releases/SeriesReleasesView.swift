@@ -340,7 +340,9 @@ extension SeriesReleasesView {
     var seasonPackPicker: some View {
         Picker("Season Pack", selection: $sort.seasonPack) {
             ForEach(SeriesReleaseSort.SeasonPack.allCases) { item in
-                Label(item.label, systemImage: item.icon).tag(Optional.some(item))
+                if item != .multiSeason || instance.releases.hasMultiSeasonPacks {
+                    Label(item.label, systemImage: item.icon).tag(Optional.some(item))
+                }
             }
         }
         .pickerStyle(.inline)

@@ -20,6 +20,10 @@ class SeriesReleases {
     var customFormats: [String] = []
     var releaseGroups: [String] = []
 
+    var hasMultiSeasonPacks: Bool {
+        items.contains(where: \.isMultiSeason)
+    }
+
     init(_ instance: Instance) {
         self.instance = instance
     }

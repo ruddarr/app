@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show release details for failed and ignored history events
 - Show when a release was previously grabbed or failed in Radarr's interactive search
 - Show when a release was previously grabbed or failed in Sonarr v5's interactive search
+- Filter Sonarr v5 releases by multi-season pack
 
 ### Fixed
 - Open the exact movie on Letterboxd instead of a search
