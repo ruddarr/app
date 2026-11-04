@@ -179,14 +179,13 @@ struct MediaInfoAudioStream: Equatable, Codable {
     }
 
     var detail: String {
-        let codecLabel = [codec, channels.map { "(\($0))" }]
-            .compactMap { $0 }
-            .joined(separator: " ")
-
-        return [codecLabel, bitrate.flatMap { formatBitrate($0) }]
-            .compactMap { $0 }
-            .filter { !$0.isEmpty }
-            .formattedList()
+        [
+            codec,
+            channels.map { "\($0)" },
+            bitrate.flatMap { formatBitrate($0) }.map { "(\($0))" },
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
     }
 }
 
