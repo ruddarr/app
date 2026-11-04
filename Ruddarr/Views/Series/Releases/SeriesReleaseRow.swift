@@ -147,6 +147,10 @@ struct SeriesReleaseRow: View {
                     Image(systemName: "r.square")
                 }
 
+                if release.hasSubtitles {
+                    Image(systemName: "s.square")
+                }
+
                 if release.isNuked {
                     Image(systemName: "trash.square")
                 }
