@@ -116,4 +116,25 @@ struct OpenSeriesIntent: OpenIntent {
         return .result()
     }
 }
+
+@available(iOS 27.0, macOS 27.0, *)
+@AppIntent(schema: .system.searchInApp)
+struct SearchInAppIntent: ShowInAppSearchResultsIntent {
+    static let searchScopes: [StringSearchScope] = [.movies, .tv]
+
+    var criteria: StringSearchCriteria
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        let query = criteria.term.trimmed()
+
+        if dependencies.router.selectedTab == .series {
+            dependencies.quickActions.openSeriesSearch(query)
+        } else {
+            dependencies.quickActions.openMovieSearch(query)
+        }
+
+        return .result()
+    }
+}
 #endif

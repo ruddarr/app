@@ -1,5 +1,7 @@
 import Foundation
 import AppIntents
+import CoreTransferable
+import UniformTypeIdentifiers
 
 struct MovieEntity: IndexedEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Movie")
@@ -8,6 +10,7 @@ struct MovieEntity: IndexedEntity {
     let id: String
     let movieId: Movie.ID
     let instanceId: Instance.ID
+    let overview: String?
 
     @Property(title: "Title")
     var title: String
@@ -49,6 +52,7 @@ struct MovieEntity: IndexedEntity {
         self.id = MediaEntityID(movie.id, instance.id).rawValue
         self.movieId = movie.id
         self.instanceId = instance.id
+        self.overview = movie.overview
         self.title = movie.title
         self.year = movie.year
         self.status = movie.status.label
@@ -74,6 +78,22 @@ struct MovieEntity: IndexedEntity {
         movie.instanceId.map {
             EntityIdentifier(for: Self.self, identifier: MediaEntityID(movie.id, $0).rawValue)
         }
+    }
+
+    var summary: String {
+        let heading = year > 0 ? "\(title) (\(year))" : title
+
+        guard let overview, !overview.isEmpty else {
+            return heading
+        }
+
+        return "\(heading)\n\n\(overview)"
+    }
+}
+
+extension MovieEntity: Transferable {
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .plainText) { Data($0.summary.utf8) }
     }
 }
 
@@ -151,6 +171,7 @@ struct SeriesEntity: IndexedEntity {
     let id: String
     let seriesId: Series.ID
     let instanceId: Instance.ID
+    let overview: String?
 
     @Property(title: "Title")
     var title: String
@@ -198,6 +219,7 @@ struct SeriesEntity: IndexedEntity {
         self.id = MediaEntityID(series.id, instance.id).rawValue
         self.seriesId = series.id
         self.instanceId = instance.id
+        self.overview = series.overview
         self.title = series.title
         self.year = series.year
         self.status = series.status.label
@@ -225,6 +247,22 @@ struct SeriesEntity: IndexedEntity {
         series.instanceId.map {
             EntityIdentifier(for: Self.self, identifier: MediaEntityID(series.id, $0).rawValue)
         }
+    }
+
+    var summary: String {
+        let heading = year > 0 ? "\(title) (\(year))" : title
+
+        guard let overview, !overview.isEmpty else {
+            return heading
+        }
+
+        return "\(heading)\n\n\(overview)"
+    }
+}
+
+extension SeriesEntity: Transferable {
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .plainText) { Data($0.summary.utf8) }
     }
 }
 
