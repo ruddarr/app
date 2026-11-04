@@ -79,25 +79,25 @@ struct SeriesReleaseSort: Equatable {
         var id: Self { self }
 
         case any
+        case episode
         case season
         case multiSeason
-        case episode
 
         var label: String {
             switch self {
             case .any: String(localized: "Any", comment: "Season pack or single episode option")
+            case .episode: String(localized: "Single Episode")
             case .season: String(localized: "Season Pack")
             case .multiSeason: String(localized: "Multi-Season Pack")
-            case .episode: String(localized: "Single Episode")
             }
         }
 
         var icon: String {
             switch self {
             case .any: "square.stack.3d.up"
+            case .episode: "numbersign"
             case .season: "shippingbox"
             case .multiSeason: "archivebox"
-            case .episode: "numbersign"
             }
         }
     }
