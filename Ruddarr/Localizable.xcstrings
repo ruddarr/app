@@ -2165,16 +2165,6 @@
         }
       }
     },
-    "Hearing Impaired" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hearing Impaired"
-          }
-        }
-      }
-    },
     "Hide Specials" : {
       "localizations" : {
         "en" : {
@@ -4696,6 +4686,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Score"
+          }
+        }
+      }
+    },
+    "SDH" : {
+      "comment" : "Subtitles for the deaf and hard of hearing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDH"
           }
         }
       }

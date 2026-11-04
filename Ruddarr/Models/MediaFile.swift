@@ -202,7 +202,7 @@ struct MediaInfoSubtitleStream: Equatable, Codable {
     var detail: String {
         let flags = [
             forced == true ? String(localized: "Forced") : nil,
-            hearingImpaired == true ? String(localized: "Hearing Impaired") : nil,
+            hearingImpaired == true ? String(localized: "SDH", comment: "Subtitles for the deaf and hard of hearing") : nil,
         ].compactMap { $0 }
 
         return [format, flags.isEmpty ? nil : "(\(flags.formattedList()))"]
