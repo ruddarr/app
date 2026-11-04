@@ -2030,6 +2030,7 @@
       }
     },
     "Forced" : {
+      "comment" : "Subtitles shown only for foreign dialogue and on-screen text",
       "localizations" : {
         "en" : {
           "stringUnit" : {

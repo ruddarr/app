@@ -201,7 +201,7 @@ struct MediaInfoSubtitleStream: Equatable, Codable {
 
     var detail: String {
         let flags = [
-            forced == true ? String(localized: "Forced") : nil,
+            forced == true ? String(localized: "Forced", comment: "Subtitles shown only for foreign dialogue and on-screen text") : nil,
             hearingImpaired == true ? String(localized: "SDH", comment: "Subtitles for the deaf and hard of hearing") : nil,
         ].compactMap { $0 }
 
