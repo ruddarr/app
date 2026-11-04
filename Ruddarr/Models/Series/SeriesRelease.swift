@@ -52,6 +52,7 @@ struct SeriesRelease: Identifiable, Codable {
     let episodeIds: [Series.ID]?
 
     let seasonNumber: Season.ID
+    let seasonNumbers: [Season.ID]?
     let mappedSeasonNumber: Season.ID?
 
     let episodeNumbers: [Episode.ID]?
@@ -94,6 +95,7 @@ struct SeriesRelease: Identifiable, Codable {
         case episodeId
         case episodeIds
         case seasonNumber
+        case seasonNumbers
         case mappedSeasonNumber
         case episodeNumbers
         case mappedEpisodeNumbers
@@ -130,6 +132,10 @@ struct SeriesRelease: Identifiable, Codable {
 
     var isRepack: Bool {
         quality.revision.isRepack
+    }
+
+    var isMultiSeason: Bool {
+        fullSeason && (seasonNumbers?.count ?? 0) > 1
     }
 
     var hasCustomFormats: Bool {
