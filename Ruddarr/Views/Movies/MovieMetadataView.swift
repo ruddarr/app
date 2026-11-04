@@ -15,7 +15,7 @@ struct MovieMetadataView: View {
 
     var body: some View {
         ScrollView {
-            Group {
+            VStack(alignment: .leading) {
                 files
                 history
             }

@@ -26,6 +26,9 @@ struct MovieReleasesView: View {
                         .environment(settings)
                 }
                 .buttonStyle(.plain)
+                #if os(macOS)
+                    .padding(.vertical, 4)
+                #endif
             }
 
             if hasHiddenReleases {
