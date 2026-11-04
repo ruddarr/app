@@ -23,6 +23,9 @@
         }
       }
     },
+    "%@" : {
+
+    },
     "%@ at %@" : {
       "comment" : "(Today/Tomorrow/Yesterday) at (time)",
       "localizations" : {
