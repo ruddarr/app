@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Show the Subtitles flag on Sonarr releases, with an S icon in the release list
+- Show the Subtitles flag on Sonarr releases
 - Show release details for failed and ignored history events
 - Show when a release was previously grabbed or failed in Radarr's interactive search
 - Show when a release was previously grabbed or failed in Sonarr v5's interactive search
