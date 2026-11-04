@@ -109,6 +109,11 @@ class MovieReleases {
     }
 }
 
+struct MovieReleaseHistory: Codable {
+    let grabbed: Date?
+    let failed: Date?
+}
+
 struct MovieRelease: Identifiable, Codable {
     var id: String { guid }
 
@@ -140,6 +145,8 @@ struct MovieRelease: Identifiable, Codable {
 
     let infoUrl: String?
 
+    let history: MovieReleaseHistory?
+
     enum CodingKeys: String, CodingKey {
         case guid
         case title
@@ -163,6 +170,7 @@ struct MovieRelease: Identifiable, Codable {
         case qualityWeight
         case releaseWeight
         case infoUrl
+        case history
     }
 
     var isTorrent: Bool {

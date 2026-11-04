@@ -85,6 +85,15 @@ struct DownloadReleaseCommand: Codable {
     // Sonarr (episode)
     private(set) var episodeId: Int?
 
+    // Sonarr v5
+    private(set) var searchInfo: SearchInfo?
+
+    struct SearchInfo: Codable {
+        var seriesId: Int?
+        var seasonNumber: Int?
+        var episodeId: Int?
+    }
+
     init(guid: String, indexerId: Int, movieId: Int?) {
         self.guid = guid
         self.indexerId = indexerId
@@ -96,11 +105,19 @@ struct DownloadReleaseCommand: Codable {
         self.indexerId = indexerId
         self.seriesId = seriesId
         self.seasonNumber = seasonId
+
+        if seriesId != nil || seasonId != nil {
+            self.searchInfo = SearchInfo(seriesId: seriesId, seasonNumber: seasonId)
+        }
     }
 
     init(guid: String, indexerId: Int, episodeId: Int?) {
         self.guid = guid
         self.indexerId = indexerId
         self.episodeId = episodeId
+
+        if episodeId != nil {
+            self.searchInfo = SearchInfo(episodeId: episodeId)
+        }
     }
 }

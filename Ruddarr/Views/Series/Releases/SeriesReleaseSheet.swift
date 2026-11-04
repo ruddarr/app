@@ -194,6 +194,16 @@ struct SeriesReleaseSheet: View {
                         release.leechers ?? 0
                     ))
                 }
+
+                if let date = release.history?.grabbed {
+                    Divider()
+                    row("Grabbed", value: date.formatted(date: .long, time: .shortened))
+                }
+
+                if let date = release.history?.failed {
+                    Divider()
+                    row("Failed", value: date.formatted(date: .long, time: .shortened))
+                }
             }
             .padding(.bottom)
         } header: {

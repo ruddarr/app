@@ -149,17 +149,17 @@ struct MediaFileSheet: View {
                     Divider()
                     row(
                         String(localized: "Channels", comment: "Audio channel count"),
-                        "\(media.audioChannels)"
+                        media.audioChannels.map { "\($0)" } ?? "--"
                     )
                     Divider()
                     row(
                         String(localized: "Bitrate", comment: "Audio/video bitrate"),
-                        formatBitrate(media.audioBitrate) ?? "--"
+                        media.audioBitrate.flatMap { formatBitrate($0) } ?? "--"
                     )
                     Divider()
                     row(
                         String(localized: "Streams", comment: "Audio stream count"),
-                        "\(media.audioStreamCount)"
+                        media.audioStreamCount.map { "\($0)" } ?? "--"
                     )
                     Divider()
 
