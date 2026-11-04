@@ -179,13 +179,14 @@ struct MediaInfoAudioStream: Equatable, Codable {
     }
 
     var detail: String {
-        [
-            codec,
-            channels.map { "\($0)" },
-            bitrate.flatMap { formatBitrate($0) },
-        ]
-        .compactMap { $0 }
-        .joined(separator: " · ")
+        let codecLabel = [codec, channels.map { "(\($0))" }]
+            .compactMap { $0 }
+            .joined(separator: " ")
+
+        return [codecLabel, bitrate.flatMap { formatBitrate($0) }]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .formattedList()
     }
 }
 
@@ -200,12 +201,13 @@ struct MediaInfoSubtitleStream: Equatable, Codable {
     }
 
     var detail: String {
-        [
-            format,
+        let flags = [
             forced == true ? String(localized: "Forced") : nil,
             hearingImpaired == true ? String(localized: "Hearing Impaired") : nil,
-        ]
-        .compactMap { $0 }
-        .joined(separator: " · ")
+        ].compactMap { $0 }
+
+        return [format, flags.isEmpty ? nil : "(\(flags.formattedList()))"]
+            .compactMap { $0 }
+            .joined(separator: " ")
     }
 }
