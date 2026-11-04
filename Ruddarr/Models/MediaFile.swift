@@ -103,6 +103,9 @@ struct FileMediaInfo: Equatable, Codable {
 
     let subtitles: String?
 
+    let audioStreams: [MediaInfoAudioStream]?
+    let subtitleStreams: [MediaInfoSubtitleStream]?
+
     var videoCodecLabel: String? {
         guard var label = videoCodec else {
             return nil
@@ -162,5 +165,48 @@ struct FileMediaInfo: Equatable, Codable {
         ))
 
         return codes.sorted(by: Languages.codeSort)
+    }
+}
+
+struct MediaInfoAudioStream: Equatable, Codable {
+    let language: String?
+    let codec: String?
+    let bitrate: Int?
+    let channels: Float?
+
+    var label: String {
+        Languages.name(byCode: language ?? "")
+    }
+
+    var detail: String {
+        [
+            codec,
+            channels.map { "\($0)" },
+            bitrate.flatMap { formatBitrate($0) }.map { "(\($0))" },
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
+    }
+}
+
+struct MediaInfoSubtitleStream: Equatable, Codable {
+    let language: String?
+    let format: String?
+    let forced: Bool?
+    let hearingImpaired: Bool?
+
+    var label: String {
+        Languages.name(byCode: language ?? "")
+    }
+
+    var detail: String {
+        let flags = [
+            forced == true ? String(localized: "Forced", comment: "Subtitles shown only for foreign dialogue and on-screen text") : nil,
+            hearingImpaired == true ? String(localized: "SDH", comment: "Subtitles for the deaf and hard of hearing") : nil,
+        ].compactMap { $0 }
+
+        return [format, flags.isEmpty ? nil : "(\(flags.formattedList()))"]
+            .compactMap { $0 }
+            .joined(separator: " ")
     }
 }

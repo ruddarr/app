@@ -132,7 +132,14 @@ struct MediaFileSheet: View {
 
     @ViewBuilder
     var audioMetadata: some View {
-        if let media = file.mediaInfo {
+        if let streams = file.mediaInfo?.audioStreams, !streams.isEmpty {
+            Section {
+                tracks(streams.map { ($0.label, $0.detail) })
+            } header: {
+                headline("Audio")
+                    .padding(.bottom, 4)
+            }
+        } else if let media = file.mediaInfo {
             Section {
                 VStack(spacing: 6) {
                     row(
@@ -184,7 +191,14 @@ struct MediaFileSheet: View {
 
     @ViewBuilder
     var textMetadata: some View {
-        if let media = file.mediaInfo, let codes = media.subtitleCodes {
+        if let media = file.mediaInfo, let streams = media.subtitleStreams, !streams.isEmpty {
+            Section {
+                tracks(streams.map { ($0.label, $0.detail) })
+            } header: {
+                headline("Subtitles")
+                    .padding(.bottom, 4)
+            }
+        } else if let media = file.mediaInfo, let codes = media.subtitleCodes {
             Section {
                 VStack(spacing: 6) {
                     row(
@@ -202,6 +216,18 @@ struct MediaFileSheet: View {
             } header: {
                 headline("Subtitles")
                     .padding(.bottom, 4)
+            }
+        }
+    }
+
+    func tracks(_ tracks: [(label: String, detail: String)]) -> some View {
+        VStack(spacing: 6) {
+            ForEach(Array(tracks.enumerated()), id: \.offset) { index, track in
+                if index > 0 {
+                    Divider()
+                }
+
+                row(track.label, track.detail)
             }
         }
     }

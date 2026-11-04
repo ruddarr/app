@@ -79,22 +79,25 @@ struct SeriesReleaseSort: Equatable {
         var id: Self { self }
 
         case any
-        case season
         case episode
+        case season
+        case multiSeason
 
         var label: String {
             switch self {
             case .any: String(localized: "Any", comment: "Season pack or single episode option")
-            case .season: String(localized: "Season Pack")
             case .episode: String(localized: "Single Episode")
+            case .season: String(localized: "Season Pack")
+            case .multiSeason: String(localized: "Multi-Season Pack")
             }
         }
 
         var icon: String {
             switch self {
             case .any: "square.stack.3d.up"
-            case .season: "shippingbox"
             case .episode: "numbersign"
+            case .season: "shippingbox"
+            case .multiSeason: "archivebox"
             }
         }
     }
@@ -140,6 +143,7 @@ struct SeriesReleaseSort: Equatable {
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (releaseGroup == .all || release.releaseGroupLabel?.caseInsensitiveCompare(releaseGroup) == .orderedSame) &&
                 (seasonPack != .season || release.fullSeason) &&
+                (seasonPack != .multiSeason || release.isMultiSeason) &&
                 (seasonPack != .episode || !release.fullSeason) &&
                 (!approved || !release.rejected) &&
                 (!freeleech || release.isFreeleech) &&

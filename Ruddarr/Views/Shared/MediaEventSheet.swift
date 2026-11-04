@@ -44,7 +44,7 @@ struct MediaEventSheet: View {
                         .padding(.top, 12)
                         .padding(.bottom)
 
-                    if event.eventType == .grabbed {
+                    if [.grabbed, .downloadFailed, .downloadIgnored].contains(event.eventType) {
                         grabbedDetails
                     }
 

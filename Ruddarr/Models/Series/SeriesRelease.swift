@@ -1,5 +1,10 @@
 import Foundation
 
+struct SeriesReleaseHistory: Codable {
+    let grabbed: Date?
+    let failed: Date?
+}
+
 struct SeriesRelease: Identifiable, Codable {
     var id: String { guid }
 
@@ -32,6 +37,8 @@ struct SeriesRelease: Identifiable, Codable {
 
     let infoUrl: String?
 
+    let history: SeriesReleaseHistory?
+
     let fullSeason: Bool
     let episodeRequested: Bool
     let shouldOverride: Bool?
@@ -45,6 +52,7 @@ struct SeriesRelease: Identifiable, Codable {
     let episodeIds: [Series.ID]?
 
     let seasonNumber: Season.ID
+    let seasonNumbers: [Season.ID]?
     let mappedSeasonNumber: Season.ID?
 
     let episodeNumbers: [Episode.ID]?
@@ -75,6 +83,7 @@ struct SeriesRelease: Identifiable, Codable {
         case qualityWeight
         case releaseWeight
         case infoUrl
+        case history
         case downloadAllowed
         case fullSeason
         case episodeRequested
@@ -86,6 +95,7 @@ struct SeriesRelease: Identifiable, Codable {
         case episodeId
         case episodeIds
         case seasonNumber
+        case seasonNumbers
         case mappedSeasonNumber
         case episodeNumbers
         case mappedEpisodeNumbers
@@ -126,6 +136,10 @@ struct SeriesRelease: Identifiable, Codable {
 
     var isRepack: Bool {
         quality.revision.isRepack
+    }
+
+    var isMultiSeason: Bool {
+        fullSeason && (seasonNumbers?.count ?? 0) > 1
     }
 
     var hasCustomFormats: Bool {
@@ -291,6 +305,31 @@ struct SeriesRelease: Identifiable, Codable {
         guard let label = formatBitrate(bitrate) else { return nil }
 
         return "~\(label)"
+    }
+}
+
+/// Sonarr v5 nests what v3 returns flat under `release`, `parsedInfo` and `decision`,
+/// so this flattens v5 releases into the v3 shape that `SeriesRelease` decodes.
+final class SonarrV5ReleaseDecoder: JSONDecoder, @unchecked Sendable {
+    override func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        guard let releases = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            return try super.decode(type, from: data)
+        }
+
+        let flattened = releases.map { release in
+            var flat = release
+
+            for key in ["release", "parsedInfo", "decision"] {
+                flat.merge(release[key] as? [String: Any] ?? [:]) { current, _ in current }
+            }
+
+            flat["seasonNumber"] = (flat["seasonNumbers"] as? [Int])?.first ?? -1
+            flat["rejections"] = (flat["rejections"] as? [[String: Any]])?.compactMap { $0["message"] }
+
+            return flat
+        }
+
+        return try super.decode(type, from: JSONSerialization.data(withJSONObject: flattened))
     }
 }
 

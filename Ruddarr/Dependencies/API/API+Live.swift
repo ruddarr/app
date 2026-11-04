@@ -133,16 +133,20 @@ extension SonarrAPI {
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
         }, releases: { seriesId, seasonId, episodeId, instance in
-            var url = try await instance.baseURL()
-                .appending(path: "/api/v3/release")
+            try await instance.withAPIVersion { version in
+                var url = try await instance.baseURL()
+                    .appending(path: "/api/\(version)/release")
 
-            if let episode = episodeId {
-                url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
-            } else {
-                url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
+                if let episode = episodeId {
+                    url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
+                } else {
+                    url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
+                }
+
+                let decoder = version == "v5" ? SonarrV5ReleaseDecoder() : JSONDecoder()
+
+                return try await API.request(url: url, instance: instance, timeout: .releaseSearch, decoder: decoder)
             }
-
-            return try await API.request(url: url, instance: instance, timeout: .releaseSearch)
         }, series: { seriesId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
@@ -241,10 +245,12 @@ extension InstanceAPI {
 
             return try await API.request(method: .post, url: url, body: command.payload, instance: instance)
         }, downloadRelease: { payload, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/release")
+            try await instance.withAPIVersion { version in
+                let url = try await instance.baseURL()
+                    .appending(path: "/api/\(version)/release")
 
-            return try await API.request(method: .post, url: url, body: payload, instance: instance, timeout: .sluggish)
+                return try await API.request(method: .post, url: url, body: payload, instance: instance, timeout: .sluggish)
+            }
         }, status: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/system/status")
@@ -340,5 +346,21 @@ extension InstanceAPI {
 
             return try await API.request(method: .delete, url: url, instance: instance)
         })
+    }
+}
+
+private extension Instance {
+    /// Calls `request` with `v5` on Sonarr v5 and later, otherwise with `v3`.
+    /// Runs `request` again with `v3` on the empty 404 a Sonarr without v5 returns, in case the stored version is stale.
+    func withAPIVersion<Response>(_ request: (_ version: String) async throws -> Response) async throws -> Response {
+        if type == .sonarr, let major = version?.split(separator: ".").first.flatMap({ Int($0) }), major >= 5 {
+            do {
+                return try await request("v5")
+            } catch API.Error.badStatusCode(code: 404) {
+                return try await request("v3")
+            }
+        }
+
+        return try await request("v3")
     }
 }
