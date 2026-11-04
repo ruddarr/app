@@ -2029,6 +2029,17 @@
         }
       }
     },
+    "Forced" : {
+      "comment" : "Subtitles shown only for foreign dialogue and on-screen text",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forced"
+          }
+        }
+      }
+    },
     "Framerate" : {
       "comment" : "Video frame rate",
       "localizations" : {
@@ -4676,6 +4687,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Score"
+          }
+        }
+      }
+    },
+    "SDH" : {
+      "comment" : "Subtitles for the deaf and hard of hearing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDH"
           }
         }
       }
