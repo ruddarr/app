@@ -231,7 +231,7 @@ struct MediaDetailsPosterModifier: ViewModifier {
             .onGeometryChange(for: CGFloat.self) { proxy in
                 proxy.bounds(of: .scrollView)?.width ?? 0
             } action: { width in
-                if width > 0 {
+                if width > 0, abs(width - scrollViewWidth) >= 1 {
                     scrollViewWidth = width
                 }
             }

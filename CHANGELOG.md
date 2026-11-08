@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved x265, H.266, VC1 and VVC codec replacements
 - Open the exact movie on Letterboxd instead of a search
 
+### Fixed
+- Fixed a freeze when opening some movies and series on iPhone
+
 ## 2.1.2 - 2026-11-02
 ### Fixed
 - Hide Indexer and Quality filters until search finished
