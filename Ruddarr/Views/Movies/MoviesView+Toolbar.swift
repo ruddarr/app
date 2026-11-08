@@ -83,8 +83,7 @@ extension MoviesView {
                 }.pickerStyle(.inline)
             }
         } label: {
-            Label("Sort By", systemImage: "arrow.up.arrow.down")
-                .imageScale(.medium)
+            ToolbarIconLabel(title: Text("Sort By"), systemImage: "arrow.up.arrow.down")
         }
     }
 
@@ -121,15 +120,9 @@ extension MoviesView {
     var toolbarInstancePicker: some ToolbarContent {
         @Bindable var settings = settings
 
-        #if os(iOS)
-            let placement: ToolbarItemPlacement = hasVerticalToolbar ? .bottomBar : .navigation
-        #else
-            let placement: ToolbarItemPlacement = .navigation
-        #endif
+        ToolbarSpacer(.fixed, placement: .navigation)
 
-        ToolbarSpacer(.fixed, placement: placement)
-
-        ToolbarItem(placement: placement) {
+        ToolbarItem(placement: .navigation) {
             Menu {
                 Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
                     ForEach(settings.radarrInstances) { instance in
@@ -138,8 +131,8 @@ extension MoviesView {
                 }
                 .pickerStyle(.inline)
             } label: {
-                Label(
-                    settings.radarrInstance?.label ?? String(localized: "Instance"),
+                ToolbarIconLabel(
+                    title: Text(settings.radarrInstance?.label ?? String(localized: "Instance")),
                     systemImage: "internaldrive"
                 )
             }

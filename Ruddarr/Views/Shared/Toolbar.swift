@@ -79,6 +79,19 @@ struct ToolbarFilterLabel: View {
     }
 }
 
+struct ToolbarIconLabel: View {
+    var title: Text
+    var systemImage: String
+
+    var body: some View {
+        Image(systemName: systemImage)
+            .background {
+                title.opacity(0)
+            }
+            .accessibilityLabel(title)
+    }
+}
+
 struct MonitorBookmark: View {
     var monitored: Bool
     var loading: Bool = false

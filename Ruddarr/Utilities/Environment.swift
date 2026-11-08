@@ -14,16 +14,6 @@ extension EnvironmentValues {
     // swiftlint:disable:next implicit_optional_initialization
     @Entry var deleteSeries: Binding<Series?>? = nil
 
-    var hasVerticalToolbar: Bool {
-        #if os(iOS)
-            if #available(iOS 27.1, *) {
-                return toolbarVerticalEdge != nil
-            }
-        #endif
-
-        return false
-    }
-
     var isCompactPhone: Bool {
         deviceType == .phone && horizontalSizeClass != .regular
     }

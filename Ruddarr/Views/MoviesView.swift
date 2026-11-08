@@ -16,8 +16,6 @@ struct MoviesView: View {
     @Environment(RadarrInstance.self) var instance
 
     @Environment(\.deviceType) var deviceType
-    @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
-    @Environment(\.isFolded) private var isFolded
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -88,7 +86,7 @@ struct MoviesView: View {
                 toolbarSearchButton
 
                 if settings.radarrInstances.count > 1 {
-                    if deviceType == .phone && !isFolded { toolbarInstancePicker }
+                    if deviceType == .phone { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
             }
