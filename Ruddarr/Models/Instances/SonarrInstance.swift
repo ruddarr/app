@@ -13,6 +13,7 @@ class SonarrInstance {
     var releases: SeriesReleases
     var episodes: SeriesEpisodes
     var files: SeriesFiles
+    var customFilters: CustomFilters
 
     init(_ instance: Instance = .sonarrVoid) {
         if instance.type != .sonarr {
@@ -27,6 +28,7 @@ class SonarrInstance {
         self.releases = SeriesReleases(instance)
         self.episodes = SeriesEpisodes(instance)
         self.files = SeriesFiles(instance)
+        self.customFilters = CustomFilters(instance, type: Series.customFilterType)
     }
 
     func switchTo(_ target: Instance) {
@@ -38,6 +40,7 @@ class SonarrInstance {
         self.releases = SeriesReleases(target)
         self.episodes = SeriesEpisodes(instance)
         self.files = SeriesFiles(instance)
+        self.customFilters = CustomFilters(target, type: Series.customFilterType)
     }
 
     var id: UUID {
@@ -68,6 +71,7 @@ class SonarrInstance {
         async let rootFolders = dependencies.api.instance.rootFolders(instance)
         async let qualityProfiles = dependencies.api.instance.qualityProfiles(instance)
         async let tags = dependencies.api.instance.tags(instance)
+        async let customFiltersFetch = customFilters.fetch()
 
         var updated = false
 
@@ -97,6 +101,8 @@ class SonarrInstance {
         } catch {
             leaveBreadcrumb(.error, category: "instance.metadata", message: "Tags fetch failed", data: ["error": error])
         }
+
+        _ = await customFiltersFetch
 
         guard updated else { return nil }
 

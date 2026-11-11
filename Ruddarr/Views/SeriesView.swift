@@ -32,6 +32,7 @@ struct SeriesView: View {
     @State private var navigationTask: Task<Void, Never>?
 
     @State private var seriesToDelete: Series?
+    @State var showCustomFilters = false
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -42,7 +43,7 @@ struct SeriesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            mediaGrid
+                            gridWithFilterChips
 
                             if instance.series.cachedItems.count > 42 {
                                 mediaCount
@@ -105,6 +106,7 @@ struct SeriesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.series.items, updateDisplayedSeries)
+            .customFiltersSheet(isPresented: $showCustomFilters, selection: $sort.customFilter, in: instance.customFilters, onChange: updateDisplayedSeries) { manageFiltersSheet }
             .task(id: searchRequest) {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedSeries()
@@ -232,7 +234,7 @@ struct SeriesView: View {
     }
 
     func updateDisplayedSeries() {
-        instance.series.updateCachedItems(sort, searchQuery)
+        instance.series.updateCachedItems(sort, searchQuery, customFilter: instance.customFilters.byId(sort.customFilter))
     }
 
     func fetchSeriesWithMetadata() {

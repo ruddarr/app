@@ -1,0 +1,60 @@
+[
+    {
+        "id": 1,
+        "type": "movieIndex",
+        "label": "Recent 4K picks",
+        "filters": [
+            { "key": "monitored", "value": [true], "type": "equal" },
+            { "key": "qualityProfileId", "value": [5], "type": "equal" },
+            { "key": "added", "value": { "time": "days", "value": 30 }, "type": "inLast" },
+            { "key": "tags", "value": [1, 42], "type": "contains" },
+            { "key": "imdbRating", "value": [7.5], "type": "greaterThanOrEqual" }
+        ]
+    },
+    {
+        "id": 2,
+        "type": "movieIndex",
+        "label": "Big non-horror",
+        "filters": [
+            { "key": "genres", "value": ["Horror", "Comedy"], "type": "notContains" },
+            { "key": "sizeOnDisk", "value": [21474836480], "type": "greaterThan" },
+            { "key": "status", "value": ["released"], "type": "equal" }
+        ]
+    },
+    {
+        "id": 3,
+        "type": "movieIndex",
+        "label": "Heists",
+        "filters": [
+            { "key": "keywords", "value": ["heist"], "type": "contains" }
+        ]
+    },
+    {
+        "id": 4,
+        "type": "series",
+        "label": "Anime gaps",
+        "filters": [
+            { "key": "status", "value": ["continuing", "upcoming"], "type": "equal" },
+            { "key": "seriesType", "value": ["anime"], "type": "equal" },
+            { "key": "hasMissingSeason", "value": [true], "type": "equal" },
+            { "key": "seasonsMonitoredStatus", "value": ["all"], "type": "equal" }
+        ]
+    },
+    {
+        "id": 5,
+        "type": "series",
+        "label": "Not trash, HD",
+        "filters": [
+            { "key": "tags", "value": [2], "type": "notContains" },
+            { "key": "qualityProfileId", "value": [3, 4, 6], "type": "equal" }
+        ]
+    },
+    {
+        "id": 6,
+        "type": "history",
+        "label": "Failed downloads",
+        "filters": [
+            { "key": "eventType", "value": 4, "type": "equal" }
+        ]
+    }
+]

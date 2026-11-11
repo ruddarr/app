@@ -34,7 +34,7 @@ class Movies {
         self.instance = instance
     }
 
-    func updateCachedItems(_ sort: MovieSort, _ searchQuery: String) {
+    func updateCachedItems(_ sort: MovieSort, _ searchQuery: String, customFilter: CustomFilter? = nil) {
         sortAndFilterTask?.cancel()
         isFiltering = true
 
@@ -42,7 +42,7 @@ class Movies {
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            let result = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+            let result = await Self.filterAndSortItems(items, alternateTitles, sort, customFilter, searchQuery)
 
             guard !Task.isCancelled else { return }
 
@@ -171,12 +171,16 @@ class Movies {
         _ items: [Movie],
         _ alternateTitles: [Movie.ID: String],
         _ sort: MovieSort,
+        _ customFilter: CustomFilter?,
         _ searchQuery: String
     ) async -> [Movie] {
         let query = searchQuery.trimmed()
+        let now = Date.now
+        let gregorian = Calendar.gregorian(in: .current)
 
         let filtered = items
             .filter(sort.filter)
+            .filter { customFilter?.matches($0, now: now, calendar: gregorian) ?? true }
             .filter {
                 guard !query.isEmpty else { return true }
                 return $0.title.localizedCaseInsensitiveContains(query)

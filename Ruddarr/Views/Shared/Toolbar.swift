@@ -60,6 +60,8 @@ struct ToolbarFilterBadge: View {
 struct ToolbarFilterLabel: View {
     var active: Bool
     var tint: Color
+    /// How many filters are active, read by VoiceOver.
+    var count: Int = 0
 
     var body: some View {
         Group {
@@ -76,6 +78,7 @@ struct ToolbarFilterLabel: View {
             Text("Filter").opacity(0)
         }
         .accessibilityLabel("Filter")
+        .accessibilityValue(count > 0 ? Text("\(count) active") : Text(verbatim: ""))
     }
 }
 

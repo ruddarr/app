@@ -12,6 +12,7 @@ class RadarrInstance {
     var lookup: MovieLookup
     var releases: MovieReleases
     var metadata: MovieMetadata
+    var customFilters: CustomFilters
 
     init(_ instance: Instance = .radarrVoid) {
         if instance.type != .radarr {
@@ -25,6 +26,7 @@ class RadarrInstance {
         self.lookup = MovieLookup(instance)
         self.releases = MovieReleases(instance)
         self.metadata = MovieMetadata(instance)
+        self.customFilters = CustomFilters(instance, type: Movie.customFilterType)
     }
 
     func switchTo(_ target: Instance) {
@@ -35,6 +37,7 @@ class RadarrInstance {
         self.lookup = MovieLookup(target)
         self.releases = MovieReleases(target)
         self.metadata = MovieMetadata(target)
+        self.customFilters = CustomFilters(target, type: Movie.customFilterType)
     }
 
     var id: UUID {
@@ -65,6 +68,7 @@ class RadarrInstance {
         async let rootFolders = dependencies.api.instance.rootFolders(instance)
         async let qualityProfiles = dependencies.api.instance.qualityProfiles(instance)
         async let tags = dependencies.api.instance.tags(instance)
+        async let customFiltersFetch = customFilters.fetch()
 
         var updated = false
 
@@ -94,6 +98,8 @@ class RadarrInstance {
         } catch {
             leaveBreadcrumb(.error, category: "instance.metadata", message: "Tags fetch failed", data: ["error": error])
         }
+
+        _ = await customFiltersFetch
 
         guard updated else { return nil }
 

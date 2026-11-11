@@ -216,6 +216,21 @@ extension InstanceAPI {
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
+        }, customFilters: { _ in
+            try await Task.sleep(for: .seconds(1))
+            let filters: [CustomFilterResource] = loadPreviewData(filename: "custom-filters")
+            return filters
+        }, createCustomFilter: { model, _ in
+            try await Task.sleep(for: .seconds(1))
+            var created = model
+            created.id = Int.random(in: 1_000...9_999)
+            return created
+        }, updateCustomFilter: { model, _ in
+            try await Task.sleep(for: .seconds(1))
+            return model
+        }, deleteCustomFilter: { _, _ in
+            try await Task.sleep(for: .seconds(1))
+            return API.Empty()
         })
     }
 }

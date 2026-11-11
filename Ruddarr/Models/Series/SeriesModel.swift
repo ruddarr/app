@@ -35,7 +35,7 @@ class SeriesModel {
         self.instance = instance
     }
 
-    func updateCachedItems(_ sort: SeriesSort, _ searchQuery: String) {
+    func updateCachedItems(_ sort: SeriesSort, _ searchQuery: String, customFilter: CustomFilter? = nil) {
         sortAndFilterTask?.cancel()
         isFiltering = true
 
@@ -43,7 +43,7 @@ class SeriesModel {
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            let result = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+            let result = await Self.filterAndSortItems(items, alternateTitles, sort, customFilter, searchQuery)
 
             guard !Task.isCancelled else { return }
 
@@ -189,12 +189,16 @@ class SeriesModel {
         _ items: [Series],
         _ alternateTitles: [Series.ID: String],
         _ sort: SeriesSort,
+        _ customFilter: CustomFilter?,
         _ searchQuery: String
     ) async -> [Series] {
         let query = searchQuery.trimmed()
+        let now = Date.now
+        let gregorian = Calendar.gregorian(in: .current)
 
         let filtered = items
             .filter(sort.filter)
+            .filter { customFilter?.matches($0, now: now, calendar: gregorian) ?? true }
             .filter {
                 guard !query.isEmpty else { return true }
                 return $0.title.localizedCaseInsensitiveContains(query)

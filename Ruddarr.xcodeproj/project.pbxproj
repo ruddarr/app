@@ -82,6 +82,9 @@
 		BBAD4DA72FF4A8FC0066994A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/CustomFilters/CustomFilter.swift,
+				"Models/CustomFilters/CustomFilter+Matching.swift",
+				Models/CustomFilters/CustomFilterResource.swift,
 				Services/NetworkInterfaces.swift,
 				Services/NetworkSnapshot.swift,
 				Services/ResolverRouting.swift,

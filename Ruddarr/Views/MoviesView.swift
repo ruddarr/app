@@ -29,6 +29,7 @@ struct MoviesView: View {
     @State private var lastFetch: Date = .distantPast
 
     @State private var movieToDelete: Movie?
+    @State var showCustomFilters = false
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -39,7 +40,7 @@ struct MoviesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            mediaGrid
+                            gridWithFilterChips
 
                             if instance.movies.cachedItems.count > 42 {
                                 mediaCount
@@ -102,6 +103,7 @@ struct MoviesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.movies.items, updateDisplayedMovies)
+            .customFiltersSheet(isPresented: $showCustomFilters, selection: $sort.customFilter, in: instance.customFilters, onChange: updateDisplayedMovies) { manageFiltersSheet }
             .task(id: searchRequest) {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedMovies()
@@ -221,7 +223,7 @@ struct MoviesView: View {
     }
 
     func updateDisplayedMovies() {
-        instance.movies.updateCachedItems(sort, searchQuery)
+        instance.movies.updateCachedItems(sort, searchQuery, customFilter: instance.customFilters.byId(sort.customFilter))
     }
 
     func fetchMoviesWithMetadata() {

@@ -345,6 +345,30 @@ extension InstanceAPI {
                 .appending(path: String(model.id ?? 0))
 
             return try await API.request(method: .delete, url: url, instance: instance)
+        }, customFilters: { instance in
+            let url = try await instance.baseURL()
+                .appending(path: "/api/v3/customfilter")
+
+            // The endpoint returns every app screen's filters, so one odd entry mustn't fail the rest.
+            let filters: [LossyDecoded<CustomFilterResource>] = try await API.request(url: url, instance: instance)
+            return filters.compactMap(\.wrappedValue)
+        }, createCustomFilter: { model, instance in
+            let url = try await instance.baseURL()
+                .appending(path: "/api/v3/customfilter")
+
+            return try await API.request(method: .post, url: url, body: model, instance: instance)
+        }, updateCustomFilter: { model, instance in
+            let url = try await instance.baseURL()
+                .appending(path: "/api/v3/customfilter")
+                .appending(path: String(model.id ?? 0))
+
+            return try await API.request(method: .put, url: url, body: model, instance: instance)
+        }, deleteCustomFilter: { model, instance in
+            let url = try await instance.baseURL()
+                .appending(path: "/api/v3/customfilter")
+                .appending(path: String(model.id ?? 0))
+
+            return try await API.request(method: .delete, url: url, instance: instance)
         })
     }
 }

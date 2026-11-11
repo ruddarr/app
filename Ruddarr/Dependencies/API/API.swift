@@ -70,6 +70,12 @@ struct InstanceAPI: Sendable {
     var createNotification: @Sendable (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: @Sendable (InstanceNotification, Instance) async throws -> InstanceNotification
     var deleteNotification: @Sendable (InstanceNotification, Instance) async throws -> API.Empty
+
+    /// Every custom filter on the server, of every `type`. Entries that fail to decode are dropped.
+    var customFilters: @Sendable (Instance) async throws -> [CustomFilterResource]
+    var createCustomFilter: @Sendable (CustomFilterResource, Instance) async throws -> CustomFilterResource
+    var updateCustomFilter: @Sendable (CustomFilterResource, Instance) async throws -> CustomFilterResource
+    var deleteCustomFilter: @Sendable (CustomFilterResource, Instance) async throws -> API.Empty
 }
 
 extension API {

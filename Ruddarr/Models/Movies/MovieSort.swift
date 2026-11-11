@@ -6,16 +6,24 @@ struct MovieSort: Hashable {
     var option: Option = .byAdded
     var filter: Filter = .all
     var folder: String = .all
+    var tag: Int?
+    var customFilter: CustomFilter.ID?
 
     static func == (lhs: MovieSort, rhs: MovieSort) -> Bool {
         lhs.isAscending == rhs.isAscending &&
         lhs.option == rhs.option &&
         lhs.filter == rhs.filter &&
-        lhs.folder == rhs.folder
+        lhs.folder == rhs.folder &&
+        lhs.tag == rhs.tag &&
+        lhs.customFilter == rhs.customFilter
     }
 
     func filter(_ movie: Movie) -> Bool {
         if folder != .all && movie.rootFolderPath?.untrailingSlashIt != folder.untrailingSlashIt {
+            return false
+        }
+
+        if let tag, !movie.tags.contains(tag) {
             return false
         }
 
@@ -122,12 +130,32 @@ extension MovieSort: RawRepresentable {
     }
 }
 
+extension MovieSort {
+    var isFiltered: Bool {
+        activeFilterCount > 0
+    }
+
+    /// How many of the filters are active, for VoiceOver.
+    var activeFilterCount: Int {
+        [filter != .all, folder != .all, tag != nil, customFilter != nil].count(where: \.self)
+    }
+
+    mutating func clearFilters() {
+        filter = .all
+        folder = .all
+        tag = nil
+        customFilter = nil
+    }
+}
+
 extension MovieSort: Codable {
     enum CodingKeys: String, CodingKey {
         case isAscending
         case option
         case filter
         case folder
+        case tag
+        case customFilter
     }
 
     init(from decoder: any Decoder) throws {
@@ -137,7 +165,9 @@ extension MovieSort: Codable {
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
             filter: container.decode(Filter.self, forKey: .filter),
-            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all
+            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all,
+            tag: try? container.decodeIfPresent(Int.self, forKey: .tag),
+            customFilter: try? container.decodeIfPresent(CustomFilter.ID.self, forKey: .customFilter)
         )
     }
 
@@ -147,5 +177,7 @@ extension MovieSort: Codable {
         try container.encode(option, forKey: .option)
         try container.encode(filter, forKey: .filter)
         try container.encode(folder, forKey: .folder)
+        try container.encodeIfPresent(tag, forKey: .tag)
+        try container.encodeIfPresent(customFilter, forKey: .customFilter)
     }
 }

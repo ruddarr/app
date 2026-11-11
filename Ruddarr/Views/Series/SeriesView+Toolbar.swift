@@ -59,10 +59,17 @@ extension SeriesView {
                     Label("Root Folder", systemImage: "folder")
                 }
             }.pickerStyle(.menu)
+
+            TagFilterPicker(tags: instance.tags, selection: $sort.tag)
+
+            CustomFiltersMenuSection<Series>(filters: instance.customFilters, serverName: "Sonarr", selection: $sort.customFilter) {
+                showCustomFilters = true
+            }
         } label: {
             ToolbarFilterLabel(
-                active: sort.filter != .all || sort.folder != .all,
-                tint: settings.theme.tint
+                active: sort.isFiltered,
+                tint: settings.theme.tint,
+                count: sort.activeFilterCount
             )
         }
     }
@@ -162,5 +169,19 @@ extension SeriesView {
                 settings.saveInstanceMetadata(model)
             }
         }
+    }
+
+    var manageFiltersSheet: some View {
+        CustomFiltersSheet(
+            context: CustomFilterContext(
+                filters: instance.customFilters,
+                serverName: "Sonarr",
+                tags: instance.tags,
+                qualityProfiles: instance.qualityProfiles,
+                items: instance.series.items
+            ),
+            selection: $sort.customFilter
+        )
+        .environment(settings)
     }
 }
