@@ -275,6 +275,12 @@ extension InstanceAPI {
                 .appending(path: "/api/v3/tag")
 
             return try await API.request(url: url, instance: instance)
+        }, customFilters: { instance in
+            let url = try await instance.baseURL()
+                .appending(path: "/api/v3/customfilter")
+
+            let filters: [LossyDecoded<CustomFilter>] = try await API.request(url: url, instance: instance)
+            return filters.compactMap(\.wrappedValue)
         }, queue: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/queue")

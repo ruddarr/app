@@ -102,6 +102,7 @@ struct MoviesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.movies.items, updateDisplayedMovies)
+            .onChange(of: instance.customFilters, updateCustomFilter)
             .task(id: searchRequest) {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedMovies()

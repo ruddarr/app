@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support Sonarr multi-season packs
 - Improved x265, H.266, VC1 and VVC codec replacements
 - Open the exact movie on Letterboxd instead of a search
+- Filter movies and series with custom filters from Radarr and Sonarr
 
 ### Changed
 - Show filter, sort and instance buttons together on folded iPhone Duo

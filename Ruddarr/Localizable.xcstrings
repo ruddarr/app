@@ -1252,6 +1252,16 @@
         }
       }
     },
+    "Custom Filter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Filter"
+          }
+        }
+      }
+    },
     "Custom Format" : {
       "localizations" : {
         "en" : {

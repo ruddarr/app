@@ -170,6 +170,10 @@ extension InstanceAPI {
             try await Task.sleep(for: .seconds(1))
             let tags: [Tag] = loadPreviewData(filename: "tags")
             return tags
+        }, customFilters: { _ in
+            try await Task.sleep(for: .seconds(1))
+            let filters: [CustomFilter] = loadPreviewData(filename: "custom-filters")
+            return filters
         }, queue: { instance in
             try await Task.sleep(for: .seconds(1))
 

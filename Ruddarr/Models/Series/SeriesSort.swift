@@ -6,16 +6,22 @@ struct SeriesSort: Hashable {
     var option: Option = .byAdded
     var filter: Filter = .all
     var folder: String = .all
+    var customFilter: CustomFilter?
 
     static func == (lhs: SeriesSort, rhs: SeriesSort) -> Bool {
         lhs.isAscending == rhs.isAscending &&
         lhs.option == rhs.option &&
         lhs.filter == rhs.filter &&
-        lhs.folder == rhs.folder
+        lhs.folder == rhs.folder &&
+        lhs.customFilter == rhs.customFilter
     }
 
     func filter(_ series: Series) -> Bool {
         if folder != .all && series.rootFolderPath?.untrailingSlashIt != folder.untrailingSlashIt {
+            return false
+        }
+
+        if let customFilter, !customFilter.matches(series) {
             return false
         }
 
@@ -130,6 +136,7 @@ extension SeriesSort: Codable {
         case option
         case filter
         case folder
+        case customFilter
     }
 
     init(from decoder: any Decoder) throws {
@@ -139,7 +146,8 @@ extension SeriesSort: Codable {
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
             filter: container.decode(Filter.self, forKey: .filter),
-            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all
+            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all,
+            customFilter: try? container.decodeIfPresent(CustomFilter.self, forKey: .customFilter)
         )
     }
 
@@ -149,5 +157,6 @@ extension SeriesSort: Codable {
         try container.encode(option, forKey: .option)
         try container.encode(filter, forKey: .filter)
         try container.encode(folder, forKey: .folder)
+        try container.encodeIfPresent(customFilter, forKey: .customFilter)
     }
 }

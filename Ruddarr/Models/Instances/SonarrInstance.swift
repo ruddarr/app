@@ -14,6 +14,9 @@ class SonarrInstance {
     var episodes: SeriesEpisodes
     var files: SeriesFiles
 
+    /// The server's custom filters Ruddarr can check for this grid, or `nil` until they're fetched.
+    var customFilters: [CustomFilter]?
+
     init(_ instance: Instance = .sonarrVoid) {
         if instance.type != .sonarr {
             fatalError("\(instance.type.rawValue) given to SonarrInstance")
@@ -38,6 +41,7 @@ class SonarrInstance {
         self.releases = SeriesReleases(target)
         self.episodes = SeriesEpisodes(instance)
         self.files = SeriesFiles(instance)
+        self.customFilters = nil
     }
 
     var id: UUID {
@@ -68,6 +72,7 @@ class SonarrInstance {
         async let rootFolders = dependencies.api.instance.rootFolders(instance)
         async let qualityProfiles = dependencies.api.instance.qualityProfiles(instance)
         async let tags = dependencies.api.instance.tags(instance)
+        async let filters = fetchCustomFilters()
 
         var updated = false
 
@@ -98,6 +103,8 @@ class SonarrInstance {
             leaveBreadcrumb(.error, category: "instance.metadata", message: "Tags fetch failed", data: ["error": error])
         }
 
+        customFilters = await filters
+
         guard updated else { return nil }
 
         if !series.items.isEmpty {
@@ -105,5 +112,16 @@ class SonarrInstance {
         }
 
         return instance
+    }
+
+    /// The server's custom filters Ruddarr can check for this grid, or the ones fetched before when the request fails.
+    private func fetchCustomFilters() async -> [CustomFilter]? {
+        do {
+            return try await dependencies.api.instance.customFilters(instance)
+                .filter { $0.type == Series.customFilterType && $0.isSupported(for: Series.self) }
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.metadata", message: "Custom filters fetch failed", data: ["error": error])
+            return customFilters
+        }
     }
 }
