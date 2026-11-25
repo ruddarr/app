@@ -31,5 +31,6 @@ extension Movie: CustomFilterable {
         "popularity": { $0.popularity.map { .decimal($0) } },
         "certification": { $0.certification.map { .string($0) } },
         "tags": { .numbers($0.tags.map(Double.init)) },
+        "releaseGroups": { .strings($0.statistics?.releaseGroups ?? []) },
     ]
 }

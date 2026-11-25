@@ -312,6 +312,7 @@ struct SeriesStatistics: Equatable, Codable {
     let episodeFileCount: Int
     let totalEpisodeCount: Int
     let percentOfEpisodes: Float
+    let releaseGroups: [String]?
 }
 
 enum SeriesMonitorNewItems: String, Equatable, Codable {

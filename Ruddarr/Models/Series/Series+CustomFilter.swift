@@ -23,6 +23,7 @@ extension Series: CustomFilterable {
         "ratingVotes": { .number(Double($0.ratings?.votes ?? 0)) },
         "certification": { $0.certification.map { .string($0) } },
         "tags": { .numbers($0.tags.map(Double.init)) },
+        "releaseGroups": { .strings($0.statistics?.releaseGroups ?? []) },
         "useSceneNumbering": { .bool($0.useSceneNumbering) },
         "year": { .number(Double($0.year)) },
         "episodeProgress": { .number($0.episodeProgress) },
