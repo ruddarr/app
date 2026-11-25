@@ -85,44 +85,34 @@ struct Ruddarr: App {
 }
 
 extension WhatsNew {
-    static let version: String = "2.0.0"
+    static let version: String = "2.2.0"
 
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "point.3.connected.trianglepath.dotted",
-            title: "Alternate URLs",
-            subtitle: "Automagically connect using the best URL for the current network."
-        ),
-        .init(
-            image: "arrow.down.circle",
-            title: "Download Indicators",
-            subtitle: "See the queue status for movies, seasons and episodes in various places."
-        ),
-        .init(
-            image: "calendar",
-            title: "Calendar Navigation",
-            subtitle: "Switched to using sheets to display calendar items for better navigation."
-        ),
-        .init(
-            image: "list.bullet.below.rectangle",
-            title: "Release Layouts",
-            subtitle: "Switch releases to a detailed layout showing titles, bitrate, and custom formats."
-        ),
-        .init(
-            image: "internaldrive",
-            title: "Instance Details",
-            subtitle: "View library statistics and disk space usage for each instances."
+            image: "line.3.horizontal.decrease",
+            title: "Custom Filters",
+            subtitle: "Filter your movies and series with the custom filters you've saved in Radarr and Sonarr."
         ),
         .init(
             image: "bolt",
-            title: "Performance",
-            subtitle: "Improved image loading and grid filtering/sorting performance."
+            title: "Faster Search",
+            subtitle: "Searching large movie and series libraries is now close to instant."
+        ),
+        .init(
+            image: "waveform",
+            title: "Audio & Subtitle Tracks",
+            subtitle: "See every audio and subtitle track in a movie's file details with Radarr 7.0.1 and later."
+        ),
+        .init(
+            image: "square.stack.3d.up",
+            title: "Multi-Season Packs",
+            subtitle: "Sonarr multi-season packs are recognized, filterable and keep their type when imported manually."
         ),
         .init(
             image: "ladybug",
             title: "Improvements & Fixes",
-            subtitle: "Several dozens of quality-of-life improvements and bug fixes throughout the app."
+            subtitle: "Subtitle flags, better codec names, exact Letterboxd links, and refinements for macOS and iPhone Duo."
         )
     ]
 }
