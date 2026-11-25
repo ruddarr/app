@@ -13,11 +13,9 @@ struct NoMovieSearchResults: View {
         } description: {
             Text(description.toMarkdown())
         } actions: {
-            if sort.filter != .all || sort.folder != .all || sort.customFilter != nil {
+            if sort.isFiltered {
                 Button("Clear Filters") {
-                    sort.filter = .all
-                    sort.folder = .all
-                    sort.customFilter = nil
+                    sort.clearFilters()
                 }
             }
         }
@@ -48,11 +46,9 @@ struct MovieSearchSuggestion: View {
                 return .handled
             })
 
-        if sort.filter != .all || sort.folder != .all || sort.customFilter != nil {
+        if sort.isFiltered {
             Button("Clear Filters") {
-                sort.filter = .all
-                sort.folder = .all
-                sort.customFilter = nil
+                sort.clearFilters()
             }
             .font(.subheadline)
             .padding(.top, 8)
@@ -69,11 +65,9 @@ struct NoMatchingMovies: View {
         } description: {
             Text("No movies match the selected filters.")
         } actions: {
-            if sort.filter != .all || sort.folder != .all || sort.customFilter != nil {
+            if sort.isFiltered {
                 Button("Clear Filters") {
-                    sort.filter = .all
-                    sort.folder = .all
-                    sort.customFilter = nil
+                    sort.clearFilters()
                 }
             }
         }

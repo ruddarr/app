@@ -58,7 +58,6 @@ struct InstanceAPI: Sendable {
     var qualityProfiles: @Sendable (Instance) async throws -> [InstanceQualityProfile]
     var diskSpace: @Sendable (Instance) async throws -> [InstanceDiskSpace]
     var tags: @Sendable (Instance) async throws -> [Tag]
-    /// Every custom filter on the server, of every `type`. Filters that fail to decode are dropped.
     var customFilters: @Sendable (Instance) async throws -> [CustomFilter]
 
     var queue: @Sendable (Instance) async throws -> QueueItems

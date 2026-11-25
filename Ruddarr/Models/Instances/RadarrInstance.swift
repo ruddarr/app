@@ -13,7 +13,6 @@ class RadarrInstance {
     var releases: MovieReleases
     var metadata: MovieMetadata
 
-    /// The server's custom filters Ruddarr can check for this grid, or `nil` until they're fetched.
     var customFilters: [CustomFilter]?
 
     init(_ instance: Instance = .radarrVoid) {
@@ -111,11 +110,12 @@ class RadarrInstance {
         return instance
     }
 
-    /// The server's custom filters Ruddarr can check for this grid, or the ones fetched before when the request fails.
     private func fetchCustomFilters() async -> [CustomFilter]? {
         do {
             return try await dependencies.api.instance.customFilters(instance)
                 .filter { $0.type == Movie.customFilterType && $0.isSupported(for: Movie.self) }
+        } catch is CancellationError {
+            return customFilters
         } catch {
             leaveBreadcrumb(.error, category: "instance.metadata", message: "Custom filters fetch failed", data: ["error": error])
             return customFilters

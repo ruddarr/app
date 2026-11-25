@@ -47,10 +47,12 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     var inCinemas: Date?
     var physicalRelease: Date?
     var digitalRelease: Date?
+    let releaseDate: Date?
 
     var tags: [Int]
     let images: [MediaImage]
     let movieFile: MediaFile?
+    let statistics: MovieStatistics?
     var addOptions: MovieAddOptions?
 
     enum CodingKeys: String, CodingKey {
@@ -84,9 +86,11 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         case inCinemas
         case physicalRelease
         case digitalRelease
+        case releaseDate
         case tags
         case images
         case movieFile
+        case statistics
         case addOptions
     }
 
@@ -235,6 +239,15 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         let rottenTomatoes: MovieRating?
         let trakt: MovieRating?
     }
+
+    struct MovieStatistics: Equatable, Codable {
+        let releaseGroups: [String]?
+        let movieFileQualities: [MovieFileQuality]?
+    }
+
+    struct MovieFileQuality: Equatable, Codable {
+        let id: Int
+    }
 }
 
 extension Movie {
@@ -340,7 +353,7 @@ extension Movie {
             originalLanguage: nil, alternateTitles: [], genres: [], ratings: nil, popularity: 0, status: .deleted, isAvailable: false,
             minimumAvailability: .deleted, monitored: false, qualityProfileId: 0, sizeOnDisk: 0, hasFile: false, path: "",
             relativePath: "", folderName: "", rootFolderPath: "", added: .now, inCinemas: nil, physicalRelease: nil,
-            digitalRelease: nil, tags: [], images: [], movieFile: nil
+            digitalRelease: nil, releaseDate: nil, tags: [], images: [], movieFile: nil, statistics: nil
         )
     }
 }

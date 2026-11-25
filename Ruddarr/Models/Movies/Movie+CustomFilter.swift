@@ -1,8 +1,6 @@
 import Foundation
 
-// The keys of Radarr's movie index filters (`movieActions.js` `filterPredicates` and `filterBuilderProps`).
 extension Movie: CustomFilterable {
-    /// The `type` of this grid's custom filters on the server.
     static let customFilterType = "movieIndex"
 
     static let customFilterValues: [String: @Sendable (Movie) -> CustomFilterItemValue?] = [
@@ -19,6 +17,7 @@ extension Movie: CustomFilterable {
         "inCinemas": { .date($0.inCinemas) },
         "physicalRelease": { .date($0.physicalRelease) },
         "digitalRelease": { .date($0.digitalRelease) },
+        "releaseDate": { .date($0.releaseDate) },
         "runtime": { .number(Double($0.runtime)) },
         "path": { $0.path.map { .string($0) } },
         "sizeOnDisk": { .number(Double($0.sizeOnDisk ?? 0)) },
@@ -33,5 +32,7 @@ extension Movie: CustomFilterable {
         "popularity": { $0.popularity.map { .decimal($0) } },
         "certification": { $0.certification.map { .string($0) } },
         "tags": { .numbers($0.tags.map(Double.init)) },
+        "releaseGroups": { .strings($0.statistics?.releaseGroups ?? []) },
+        "movieFileQualities": { .numbers(($0.statistics?.movieFileQualities ?? []).map { Double($0.id) }) },
     ]
 }

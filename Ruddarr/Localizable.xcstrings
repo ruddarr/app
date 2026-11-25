@@ -1252,12 +1252,12 @@
         }
       }
     },
-    "Custom Filter" : {
+    "Custom Filters" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Custom Filter"
+            "value" : "Custom Filters"
           }
         }
       }

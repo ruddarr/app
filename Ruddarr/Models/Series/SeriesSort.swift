@@ -4,9 +4,25 @@ import Sentry
 struct SeriesSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
-    var filter: Filter = .all
+    var filter: Filter = .all {
+        didSet { if filter != .all { customFilter = nil } }
+    }
+
     var folder: String = .all
-    var customFilter: CustomFilter?
+
+    var customFilter: CustomFilter? {
+        didSet { if customFilter != nil { filter = .all } }
+    }
+
+    var isFiltered: Bool {
+        filter != .all || folder != .all || customFilter != nil
+    }
+
+    mutating func clearFilters() {
+        filter = .all
+        folder = .all
+        customFilter = nil
+    }
 
     static func == (lhs: SeriesSort, rhs: SeriesSort) -> Bool {
         lhs.isAscending == rhs.isAscending &&
