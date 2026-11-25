@@ -134,7 +134,7 @@ struct MediaFileSheet: View {
     var audioMetadata: some View {
         if let streams = file.mediaInfo?.audioStreams, !streams.isEmpty {
             Section {
-                tracks(streams.map { ($0.label, $0.detail) })
+                tracks(streams.map { ($0.label, $0.displayTitle, $0.detail) })
             } header: {
                 headline("Audio")
                     .padding(.bottom, 4)
@@ -193,7 +193,7 @@ struct MediaFileSheet: View {
     var textMetadata: some View {
         if let media = file.mediaInfo, let streams = media.subtitleStreams, !streams.isEmpty {
             Section {
-                tracks(streams.map { ($0.label, $0.detail) })
+                tracks(streams.map { ($0.label, $0.displayTitle, $0.detail) })
             } header: {
                 headline("Subtitles")
                     .padding(.bottom, 4)
@@ -220,14 +220,14 @@ struct MediaFileSheet: View {
         }
     }
 
-    func tracks(_ tracks: [(label: String, detail: String)]) -> some View {
+    func tracks(_ tracks: [(label: String, title: String?, detail: String)]) -> some View {
         VStack(spacing: 6) {
             ForEach(Array(tracks.enumerated()), id: \.offset) { index, track in
                 if index > 0 {
                     Divider()
                 }
 
-                row(track.label, track.detail)
+                row(track.label, track.detail, title: track.title)
             }
         }
     }
@@ -239,10 +239,17 @@ struct MediaFileSheet: View {
             .padding(.top)
     }
 
-    func row(_ label: String, _ value: String) -> some View {
+    func row(_ label: String, _ value: String, title: String? = nil) -> some View {
         HStack(alignment: .top) {
-            Text(label)
-                .foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+
+                if let title {
+                    Text(title)
+                        .font(.caption)
+                }
+            }
+            .foregroundStyle(.secondary)
 
             Spacer()
             Spacer()
