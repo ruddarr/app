@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for Custom Filters
 - Support modern audio and subtitle tracks
 - Support Sonarr multi-season packs
+- Show the Subtitles flag and icon on Sonarr releases
 - Show release details for failed and ignored history events
 - Show when a release was previously grabbed or failed
 - Improved x265, H.266, VC1 and VVC codec replacements
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Faster searching in large movie and series libraries
 - Show filter, sort and instance buttons together on folded iPhone Duo
+- Various layout refinements for macOS
 
 ### Fixed
 - Fixed a freeze when opening some movies and series on iPhone
