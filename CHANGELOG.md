@@ -7,17 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Show release details for failed and ignored history events
-- Show when a release was previously grabbed or failed
+- Added support for Custom Filters
 - Support modern audio and subtitle tracks
 - Support Sonarr multi-season packs
+- Show release details for failed and ignored history events
+- Show when a release was previously grabbed or failed
 - Improved x265, H.266, VC1 and VVC codec replacements
 - Open the exact movie on Letterboxd instead of a search
-- Filter movies and series with custom filters from Radarr and Sonarr
 
 ### Changed
-- Show filter, sort and instance buttons together on folded iPhone Duo
 - Faster searching in large movie and series libraries
+- Show filter, sort and instance buttons together on folded iPhone Duo
 
 ### Fixed
 - Fixed a freeze when opening some movies and series on iPhone
