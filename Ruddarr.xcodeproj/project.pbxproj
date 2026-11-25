@@ -863,7 +863,7 @@
 			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 13.0.4;
+				minimumVersion = 14.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

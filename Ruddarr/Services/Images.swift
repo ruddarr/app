@@ -20,7 +20,7 @@ class Images {
     @concurrent
     static func clearCache() async {
         shared.cache.removeAll()
-        dataCache?.flush()
+        await dataCache?.flush()
 
         URLCache.shared.removeAllCachedResponses()
 
