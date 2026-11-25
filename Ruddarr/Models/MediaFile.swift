@@ -180,7 +180,11 @@ struct MediaInfoAudioStream: Equatable, Codable {
     }
 
     var displayTitle: String? {
-        trackTitle(title, language: label)
+        guard let title, !title.isEmpty, title.localizedCaseInsensitiveCompare(label) != .orderedSame else {
+            return nil
+        }
+
+        return title
     }
 
     var detail: String {
@@ -199,14 +203,9 @@ struct MediaInfoSubtitleStream: Equatable, Codable {
     let format: String?
     let forced: Bool?
     let hearingImpaired: Bool?
-    let title: String?
 
     var label: String {
         Languages.name(byCode: language ?? "")
-    }
-
-    var displayTitle: String? {
-        trackTitle(title, language: label)
     }
 
     var detail: String {
@@ -219,12 +218,4 @@ struct MediaInfoSubtitleStream: Equatable, Codable {
             .compactMap { $0 }
             .joined(separator: " ")
     }
-}
-
-private func trackTitle(_ title: String?, language: String) -> String? {
-    guard let title, !title.isEmpty, title.localizedCaseInsensitiveCompare(language) != .orderedSame else {
-        return nil
-    }
-
-    return title
 }

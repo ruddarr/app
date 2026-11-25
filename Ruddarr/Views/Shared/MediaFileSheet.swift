@@ -193,7 +193,7 @@ struct MediaFileSheet: View {
     var textMetadata: some View {
         if let media = file.mediaInfo, let streams = media.subtitleStreams, !streams.isEmpty {
             Section {
-                tracks(streams.map { ($0.label, $0.displayTitle, $0.detail) })
+                tracks(streams.map { ($0.label, nil, $0.detail) })
             } header: {
                 headline("Subtitles")
                     .padding(.bottom, 4)
