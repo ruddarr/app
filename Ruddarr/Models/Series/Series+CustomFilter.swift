@@ -1,8 +1,6 @@
 import Foundation
 
-// The keys of Sonarr's series index filters (`seriesActions.js` `filterPredicates` and `filterBuilderProps`).
 extension Series: CustomFilterable {
-    /// The `type` of this grid's custom filters on the server.
     static let customFilterType = "series"
 
     static let customFilterValues: [String: @Sendable (Series) -> CustomFilterItemValue?] = [

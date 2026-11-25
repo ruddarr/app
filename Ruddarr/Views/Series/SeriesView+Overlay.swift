@@ -13,11 +13,9 @@ struct NoSeriesSearchResults: View {
         } description: {
             Text(description.toMarkdown())
         } actions: {
-            if sort.filter != .all || sort.folder != .all || sort.customFilter != nil {
+            if sort.isFiltered {
                 Button("Clear Filters") {
-                    sort.filter = .all
-                    sort.folder = .all
-                    sort.customFilter = nil
+                    sort.clearFilters()
                 }
             }
         }
@@ -48,11 +46,9 @@ struct SeriesSearchSuggestion: View {
                 return .handled
             })
 
-        if sort.filter != .all || sort.folder != .all || sort.customFilter != nil {
+        if sort.isFiltered {
             Button("Clear Filters") {
-                sort.filter = .all
-                sort.folder = .all
-                sort.customFilter = nil
+                sort.clearFilters()
             }
             .font(.subheadline)
             .padding(.top, 8)
@@ -69,11 +65,9 @@ struct NoMatchingSeries: View {
         } description: {
             Text("No series match the selected filters.")
         } actions: {
-            if sort.filter != .all || sort.folder != .all || sort.customFilter != nil {
+            if sort.isFiltered {
                 Button("Clear Filters") {
-                    sort.filter = .all
-                    sort.folder = .all
-                    sort.customFilter = nil
+                    sort.clearFilters()
                 }
             }
         }

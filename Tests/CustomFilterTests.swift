@@ -1,9 +1,6 @@
 import Testing
 import Foundation
 
-// Exercises the custom filters from Ruddarr/Models/CustomFilter.swift, which are checked like the Radarr
-// and Sonarr web interface checks them. `Movie` and `Series` aren't in this test bundle, so the
-// conditions run against `Item`, a fixture with the same kinds of values.
 struct CustomFilterTests {
     private struct Item: CustomFilterable {
         static var customFilterValues: [String: @Sendable (Item) -> CustomFilterItemValue?] {
@@ -14,7 +11,6 @@ struct CustomFilterTests {
         var values: [String: CustomFilterItemValue]
     }
 
-    // 2024-06-15 12:00 UTC
     private let now = Date(timeIntervalSince1970: 1_718_452_800)
 
     private var item: Item {
@@ -48,9 +44,17 @@ struct CustomFilterTests {
         #expect(filters[0].filters[1].value == .object(["time": .string("days"), "value": .null]))
         #expect(filters[0].filters[2].operator == .equal)
 
-        // The selected filter is saved with the grid's sort.
         let encoded = try JSONEncoder().encode(filters[0])
         #expect(try JSONDecoder().decode(CustomFilter.self, from: encoded) == filters[0])
+    }
+
+    @Test func dropsUndecodableFilters() throws {
+        let json = #"[{"id": 1, "type": "movieIndex", "label": "Good", "filters": []}, "#
+            + #"{"id": "2", "type": "movieIndex", "label": "Bad id", "filters": []}, "#
+            + #"{"id": 3, "type": "movieIndex", "label": "No key", "filters": [{"value": [1]}]}]"#
+        let filters = try JSONDecoder().decode([LossyDecoded<CustomFilter>].self, from: Data(json.utf8))
+
+        #expect(filters.compactMap(\.wrappedValue).map(\.id) == [1])
     }
 
     @Test func supportsKnownKeysAndOperators() throws {
@@ -71,7 +75,6 @@ struct CustomFilterTests {
         #expect(try matches("year", "equal", "[1998, 1999]"))
         #expect(try !matches("year", "notEqual", "[1998, 1999]"))
         #expect(try matches("year", "notEqual", "[1998, 2000]"))
-        // Strict equality, as in JavaScript: no coercion and case-sensitive.
         #expect(try !matches("year", "equal", #"["1999"]"#))
         #expect(try !matches("title", "equal", #"["the matrix"]"#))
     }
@@ -98,12 +101,10 @@ struct CustomFilterTests {
         #expect(try matches("year", "greaterThanOrEqual", "[1999]"))
         #expect(try !matches("year", "lessThan", "[1999]"))
         #expect(try matches("year", "lessThanOrEqual", "[1999]"))
-        // A Float rating of 7.3 is 73, not 72.99999…
         #expect(try matches("rating", "equal", "[73]"))
     }
 
     @Test func comparesDates() throws {
-        // Added 2024-06-05 at noon UTC, which is the 5th or 6th in any time zone.
         #expect(try matches("added", "lessThan", #""2024-06-10""#))
         #expect(try !matches("added", "greaterThan", #""2024-06-10""#))
         #expect(try matches("added", "greaterThan", #""2024-06-01""#))

@@ -1,8 +1,6 @@
 import Foundation
 
-// The keys of Radarr's movie index filters (`movieActions.js` `filterPredicates` and `filterBuilderProps`).
 extension Movie: CustomFilterable {
-    /// The `type` of this grid's custom filters on the server.
     static let customFilterType = "movieIndex"
 
     static let customFilterValues: [String: @Sendable (Movie) -> CustomFilterItemValue?] = [
