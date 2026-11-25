@@ -59,9 +59,24 @@ extension SeriesView {
                     Label("Root Folder", systemImage: "folder")
                 }
             }.pickerStyle(.menu)
+
+            // Until the server's filters load, the saved one is listed so it can be turned off.
+            let filters = instance.customFilters ?? [sort.customFilter].compactMap { $0 }
+
+            if !filters.isEmpty {
+                Picker(selection: $sort.customFilter) {
+                    Text("None").tag(CustomFilter?.none)
+
+                    ForEach(filters) { filter in
+                        Text(filter.label).tag(Optional(filter))
+                    }
+                } label: {
+                    Label(sort.customFilter?.label ?? String(localized: "Custom Filter"), systemImage: "line.3.horizontal.decrease.circle")
+                }.pickerStyle(.menu)
+            }
         } label: {
             ToolbarFilterLabel(
-                active: sort.filter != .all || sort.folder != .all,
+                active: sort.filter != .all || sort.folder != .all || sort.customFilter != nil,
                 tint: settings.theme.tint
             )
         }
@@ -155,6 +170,8 @@ extension SeriesView {
             }
 
             instance.switchTo(newInstance)
+            // Filter ids are per server.
+            sort.customFilter = nil
 
             await fetchSeriesWithAlert()
 
@@ -162,5 +179,11 @@ extension SeriesView {
                 settings.saveInstanceMetadata(model)
             }
         }
+    }
+
+    /// Keeps the selected custom filter in step with the server's copy, and clears it once it's gone.
+    func updateCustomFilter() {
+        guard let filters = instance.customFilters, let selected = sort.customFilter else { return }
+        sort.customFilter = filters.first { $0.id == selected.id }
     }
 }

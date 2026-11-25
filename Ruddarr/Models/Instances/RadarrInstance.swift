@@ -13,6 +13,9 @@ class RadarrInstance {
     var releases: MovieReleases
     var metadata: MovieMetadata
 
+    /// The server's custom filters Ruddarr can check for this grid, or `nil` until they're fetched.
+    var customFilters: [CustomFilter]?
+
     init(_ instance: Instance = .radarrVoid) {
         if instance.type != .radarr {
             fatalError("\(instance.type.rawValue) given to RadarrInstance")
@@ -35,6 +38,7 @@ class RadarrInstance {
         self.lookup = MovieLookup(target)
         self.releases = MovieReleases(target)
         self.metadata = MovieMetadata(target)
+        self.customFilters = nil
     }
 
     var id: UUID {
@@ -65,6 +69,7 @@ class RadarrInstance {
         async let rootFolders = dependencies.api.instance.rootFolders(instance)
         async let qualityProfiles = dependencies.api.instance.qualityProfiles(instance)
         async let tags = dependencies.api.instance.tags(instance)
+        async let filters = fetchCustomFilters()
 
         var updated = false
 
@@ -95,6 +100,8 @@ class RadarrInstance {
             leaveBreadcrumb(.error, category: "instance.metadata", message: "Tags fetch failed", data: ["error": error])
         }
 
+        customFilters = await filters
+
         guard updated else { return nil }
 
         if !movies.items.isEmpty {
@@ -102,5 +109,16 @@ class RadarrInstance {
         }
 
         return instance
+    }
+
+    /// The server's custom filters Ruddarr can check for this grid, or the ones fetched before when the request fails.
+    private func fetchCustomFilters() async -> [CustomFilter]? {
+        do {
+            return try await dependencies.api.instance.customFilters(instance)
+                .filter { $0.type == Movie.customFilterType && $0.isSupported(for: Movie.self) }
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.metadata", message: "Custom filters fetch failed", data: ["error": error])
+            return customFilters
+        }
     }
 }

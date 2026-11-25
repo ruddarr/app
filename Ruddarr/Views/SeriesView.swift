@@ -105,6 +105,7 @@ struct SeriesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.series.items, updateDisplayedSeries)
+            .onChange(of: instance.customFilters, updateCustomFilter)
             .task(id: searchRequest) {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedSeries()
