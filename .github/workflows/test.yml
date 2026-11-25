@@ -20,7 +20,7 @@ jobs:
 
   xcode:
     name: Xcode Tests (${{ matrix.name }})
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 10
 
     strategy:
@@ -28,7 +28,7 @@ jobs:
       matrix:
         include:
           - name: iOS
-            platform: "iOS Simulator,name=iPhone 17 Pro"
+            platform: "iOS Simulator,name=iPhone 18 Pro,OS=latest"
             action: test
           - name: macOS
             platform: "macOS"

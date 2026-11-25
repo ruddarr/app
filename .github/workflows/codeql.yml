@@ -18,7 +18,7 @@ jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
 
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-26') || 'ubuntu-latest' }}
+    runs-on: ${{ (matrix.language == 'swift' && 'xcode-27') || 'ubuntu-latest' }}
 
     permissions:
       security-events: write

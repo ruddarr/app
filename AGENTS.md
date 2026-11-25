@@ -34,7 +34,7 @@ Guidance for AI agents working in this repository.
 
 CI runs iOS tests with:
 ```bash
-xcodebuild test -scheme Ruddarr -skipPackagePluginValidation -destination 'platform=iOS Simulator,name=iPhone 17 Pro' CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO MACOSX_DEPLOYMENT_TARGET=26.0
+xcodebuild test -scheme Ruddarr -skipPackagePluginValidation -destination 'platform=iOS Simulator,name=iPhone 18 Pro,OS=latest' CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO MACOSX_DEPLOYMENT_TARGET=26.0
 ```
 
 CI runs macOS tests with:
