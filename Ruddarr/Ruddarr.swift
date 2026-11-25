@@ -90,7 +90,7 @@ extension WhatsNew {
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "line.3.horizontal.decrease.circle",
+            image: "line.3.horizontal.decrease",
             title: "Custom Filters",
             subtitle: "Filter your movies and series with the custom filters you've saved in Radarr and Sonarr."
         ),
