@@ -294,7 +294,7 @@ struct SeriesView: View {
         }
 
         scrollToTop()
-        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true, debounce: .milliseconds(100))
     }
 
     func deleteSeries(_ series: Series, exclude: Bool, delete: Bool) async {

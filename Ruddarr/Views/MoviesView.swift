@@ -283,7 +283,7 @@ struct MoviesView: View {
         }
 
         scrollToTop()
-        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true, debounce: .milliseconds(100))
     }
 
     func deleteMovie(_ movie: Movie, exclude: Bool, delete: Bool) async {

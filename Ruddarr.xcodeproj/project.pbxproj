@@ -90,6 +90,7 @@
 				Utilities/Changelog.swift,
 				Utilities/Decoders.swift,
 				Utilities/Extensions.swift,
+				Utilities/FoldedText.swift,
 				Utilities/Formatters.swift,
 				Utilities/Helpers.swift,
 				Utilities/Networking.swift,

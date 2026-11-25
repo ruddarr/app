@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Show filter, sort and instance buttons together on folded iPhone Duo
+- Faster searching in large movie and series libraries
 
 ### Fixed
 - Fixed a freeze when opening some movies and series on iPhone

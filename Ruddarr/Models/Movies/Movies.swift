@@ -17,7 +17,7 @@ class Movies {
     var isWorking: Bool = false
     var isFiltering: Bool = false
 
-    private var alternateTitles: [Movie.ID: String] = [:]
+    private var alternateTitles: [Movie.ID: FoldedText] = [:]
     private var sortAndFilterTask: Task<Void, Never>?
 
     enum Operation {
@@ -169,19 +169,20 @@ class Movies {
 
     @concurrent nonisolated private static func filterAndSortItems(
         _ items: [Movie],
-        _ alternateTitles: [Movie.ID: String],
+        _ alternateTitles: [Movie.ID: FoldedText],
         _ sort: MovieSort,
         _ searchQuery: String
     ) async -> [Movie] {
         let query = searchQuery.trimmed()
+        let needle = FoldedText(query)
 
         let filtered = items
             .filter(sort.filter)
             .filter {
                 guard !query.isEmpty else { return true }
-                return $0.title.localizedCaseInsensitiveContains(query)
-                    || $0.studio?.localizedCaseInsensitiveContains(query) ?? false
-                    || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
+                return FoldedText($0.title).contains(needle)
+                    || $0.studio.map { FoldedText($0).contains(needle) } ?? false
+                    || alternateTitles[$0.id]?.contains(needle) ?? false
             }
 
         if Task.isCancelled { return [] }
@@ -209,9 +210,9 @@ class Movies {
         }
 
         Task.detached(priority: .background) {
-            let titles: [Movie.ID: String] = await Dictionary(
+            let titles: [Movie.ID: FoldedText] = await Dictionary(
                 uniqueKeysWithValues: self.items.map { item in
-                    (item.id, item.alternateTitlesString())
+                    (item.id, FoldedText(item.alternateTitlesString()))
                 }
             )
 

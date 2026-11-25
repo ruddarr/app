@@ -9,6 +9,7 @@ Added
 
 Changed
 - Show filter, sort and instance buttons together on folded iPhone Duo
+- Faster searching in large movie and series libraries
 
 Fixed
 - Fixed a freeze when opening some movies and series on iPhone
