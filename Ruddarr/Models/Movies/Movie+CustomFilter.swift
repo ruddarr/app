@@ -17,6 +17,7 @@ extension Movie: CustomFilterable {
         "inCinemas": { .date($0.inCinemas) },
         "physicalRelease": { .date($0.physicalRelease) },
         "digitalRelease": { .date($0.digitalRelease) },
+        "releaseDate": { .date($0.releaseDate) },
         "runtime": { .number(Double($0.runtime)) },
         "path": { $0.path.map { .string($0) } },
         "sizeOnDisk": { .number(Double($0.sizeOnDisk ?? 0)) },
