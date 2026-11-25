@@ -17,7 +17,7 @@ class SeriesModel {
     var isWorking: Bool = false
     var isFiltering: Bool = false
 
-    private var alternateTitles: [Series.ID: String] = [:]
+    private var alternateTitles: [Series.ID: FoldedText] = [:]
     private var sortAndFilterTask: Task<Void, Never>?
 
     enum Operation {
@@ -187,19 +187,20 @@ class SeriesModel {
 
     @concurrent nonisolated private static func filterAndSortItems(
         _ items: [Series],
-        _ alternateTitles: [Series.ID: String],
+        _ alternateTitles: [Series.ID: FoldedText],
         _ sort: SeriesSort,
         _ searchQuery: String
     ) async -> [Series] {
         let query = searchQuery.trimmed()
+        let needle = FoldedText(query)
 
         let filtered = items
             .filter(sort.filter)
             .filter {
                 guard !query.isEmpty else { return true }
-                return $0.title.localizedCaseInsensitiveContains(query)
-                    || $0.network?.localizedCaseInsensitiveContains(query) ?? false
-                    || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
+                return FoldedText($0.title).contains(needle)
+                    || $0.network.map { FoldedText($0).contains(needle) } ?? false
+                    || alternateTitles[$0.id]?.contains(needle) ?? false
             }
 
         if Task.isCancelled { return [] }
@@ -227,9 +228,9 @@ class SeriesModel {
         }
 
         Task.detached(priority: .background) {
-            let titles: [Series.ID: String] = await Dictionary(
+            let titles: [Series.ID: FoldedText] = await Dictionary(
                 uniqueKeysWithValues: self.items.map { item in
-                    (item.id, item.alternateTitlesString())
+                    (item.id, FoldedText(item.alternateTitlesString()))
                 }
             )
 
