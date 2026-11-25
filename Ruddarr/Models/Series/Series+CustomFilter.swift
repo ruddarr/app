@@ -25,5 +25,39 @@ extension Series: CustomFilterable {
         "tags": { .numbers($0.tags.map(Double.init)) },
         "useSceneNumbering": { .bool($0.useSceneNumbering) },
         "year": { .number(Double($0.year)) },
+        "episodeProgress": { .number($0.episodeProgress) },
+        "averageSizePerEpisode": { .number($0.averageSizePerEpisode) },
+        "hasMissingSeason": { .bool($0.hasMissingSeason) },
+        "seasonsMonitoredStatus": { .string($0.seasonsMonitoredStatus) },
     ]
+}
+
+private extension Series {
+    var episodeProgress: Double {
+        episodeCount > 0 ? Double(episodeFileCount) / Double(episodeCount) * 100 : 100
+    }
+
+    var averageSizePerEpisode: Double {
+        episodeFileCount > 0 ? Double(statistics?.sizeOnDisk ?? 0) / Double(episodeFileCount) : 0
+    }
+
+    var hasMissingSeason: Bool {
+        seasons.contains { season in
+            guard let stats = season.statistics else { return false }
+
+            return season.seasonNumber > 0
+                && stats.totalEpisodeCount > 0
+                && stats.episodeCount == stats.totalEpisodeCount
+                && stats.episodeFileCount == 0
+        }
+    }
+
+    var seasonsMonitoredStatus: String {
+        let regular = seasons.filter { $0.seasonNumber > 0 }
+        let monitored = regular.filter(\.monitored).count
+
+        if monitored == 0 { return "none" }
+
+        return monitored == regular.count ? "all" : "partial"
+    }
 }
