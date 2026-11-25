@@ -32,5 +32,6 @@ extension Movie: CustomFilterable {
         "certification": { $0.certification.map { .string($0) } },
         "tags": { .numbers($0.tags.map(Double.init)) },
         "releaseGroups": { .strings($0.statistics?.releaseGroups ?? []) },
+        "movieFileQualities": { .numbers(($0.statistics?.movieFileQualities ?? []).map { Double($0.id) }) },
     ]
 }

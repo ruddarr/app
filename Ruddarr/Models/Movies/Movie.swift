@@ -240,6 +240,11 @@ struct Movie: Media, Identifiable, Equatable, Codable {
 
     struct MovieStatistics: Equatable, Codable {
         let releaseGroups: [String]?
+        let movieFileQualities: [MovieFileQuality]?
+    }
+
+    struct MovieFileQuality: Equatable, Codable {
+        let id: Int
     }
 }
 
