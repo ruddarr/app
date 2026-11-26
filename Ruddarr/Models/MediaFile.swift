@@ -173,9 +173,18 @@ struct MediaInfoAudioStream: Equatable, Codable {
     let codec: String?
     let bitrate: Int?
     let channels: Float?
+    let title: String?
 
     var label: String {
         Languages.name(byCode: language ?? "")
+    }
+
+    var displayTitle: String? {
+        guard let title, !title.isEmpty, title.localizedCaseInsensitiveCompare(label) != .orderedSame else {
+            return nil
+        }
+
+        return title
     }
 
     var detail: String {
