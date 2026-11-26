@@ -70,7 +70,7 @@ extension MoviesView {
                         Text(filter.label).tag(Optional(filter))
                     }
                 } label: {
-                    Label(sort.customFilter?.label ?? String(localized: "Custom Filters"), systemImage: "line.3.horizontal.decrease.circle")
+                    Label(sort.customFilter?.label ?? String(localized: "Custom Filters"), systemImage: "slider.vertical.3")
                 }.pickerStyle(.menu)
             }
         } label: {
