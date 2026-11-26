@@ -24,7 +24,7 @@
       }
     },
     "%@" : {
-
+      "shouldTranslate" : false
     },
     "%@ at %@" : {
       "comment" : "(Today/Tomorrow/Yesterday) at (time)",
