@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed a freeze when opening some movies and series on iPhone
+- Fixed movie root folder showing as unknown in the calendar
 
 ## 2.1.2 - 2026-11-02
 ### Fixed

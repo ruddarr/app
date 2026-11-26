@@ -75,6 +75,16 @@ private struct CalendarMovieSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     init(movie: Movie, instance model: Instance) {
+        var movie = movie
+
+        // Radarr's calendar endpoint omits `rootFolderPath`
+        if movie.rootFolderPath == nil, let path = movie.path {
+            movie.rootFolderPath = RootFolderResolver.bestPath(
+                for: path,
+                among: model.rootFolders.compactMap(\.path)
+            )
+        }
+
         let instance = RadarrInstance(model)
         instance.movies.items = [movie]
         instance.movies.cachedItems = [movie]

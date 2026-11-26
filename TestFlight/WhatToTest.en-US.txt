@@ -15,3 +15,4 @@ Changed
 
 Fixed
 - Fixed a freeze when opening some movies and series on iPhone
+- Fixed movie root folder showing as unknown in the calendar
