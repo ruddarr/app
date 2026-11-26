@@ -271,7 +271,11 @@ extension Movie {
             .filter { $0.title == title }
             .map { $0.title }
 
-        attributes.associateAppEntity(MovieEntity(self, instance))
+        #if compiler(>=6.4)
+            if #available(iOS 27.0, macOS 27.0, *) {
+                attributes.associateAppEntity(MovieEntity(self, instance))
+            }
+        #endif
 
         return CSSearchableItem(
             uniqueIdentifier: SpotlightItemID(.movie, id, instanceId?.uuidString).rawValue,

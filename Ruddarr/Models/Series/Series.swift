@@ -248,7 +248,11 @@ extension Series {
                 .map { $0.title }
         }
 
-        attributes.associateAppEntity(SeriesEntity(self, instance))
+        #if compiler(>=6.4)
+            if #available(iOS 27.0, macOS 27.0, *) {
+                attributes.associateAppEntity(SeriesEntity(self, instance))
+            }
+        #endif
 
         return CSSearchableItem(
             uniqueIdentifier: SpotlightItemID(.series, id, instanceId?.uuidString).rawValue,
