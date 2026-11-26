@@ -39,12 +39,6 @@ struct MovieEntity: IndexedEntity {
     @Property(title: "Physical Release")
     var physicalRelease: Date?
 
-    @Property(title: "IMDb ID")
-    var imdbId: String?
-
-    @Property(title: "TMDB ID")
-    var tmdbId: Int
-
     @Property(title: "Instance")
     var instance: String
 
@@ -62,8 +56,6 @@ struct MovieEntity: IndexedEntity {
         self.inCinemas = movie.inCinemas
         self.digitalRelease = movie.digitalRelease
         self.physicalRelease = movie.physicalRelease
-        self.imdbId = movie.imdbId
-        self.tmdbId = movie.tmdbId
         self.instance = instance.label
     }
 

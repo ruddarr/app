@@ -33,9 +33,6 @@ struct SeriesEntity: IndexedEntity {
     @Property(title: "Episodes")
     var episodes: Int?
 
-    @Property(title: "Downloaded Episodes")
-    var downloadedEpisodes: Int?
-
     @Property(title: "Size on Disk")
     var sizeOnDisk: Measurement<UnitInformationStorage>?
 
@@ -44,12 +41,6 @@ struct SeriesEntity: IndexedEntity {
 
     @Property(title: "Previous Airing")
     var previousAiring: Date?
-
-    @Property(title: "IMDb ID")
-    var imdbId: String?
-
-    @Property(title: "TVDB ID")
-    var tvdbId: Int
 
     @Property(title: "Instance")
     var instance: String
@@ -66,12 +57,9 @@ struct SeriesEntity: IndexedEntity {
         self.network = series.network
         self.seasons = series.statistics?.seasonCount
         self.episodes = series.statistics?.episodeCount
-        self.downloadedEpisodes = series.statistics?.episodeFileCount
         self.sizeOnDisk = series.statistics.map { Measurement(value: Double($0.sizeOnDisk), unit: .bytes) }
         self.nextAiring = series.nextAiring
         self.previousAiring = series.previousAiring
-        self.imdbId = series.imdbId
-        self.tvdbId = series.tvdbId
         self.instance = instance.label
     }
 
