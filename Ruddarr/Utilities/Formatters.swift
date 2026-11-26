@@ -131,6 +131,45 @@ enum RootFolderLabel {
     }
 }
 
+// Mirrors Radarr's `GetBestRootFolderPath()`, for responses that omit `rootFolderPath`:
+// the longest root folder containing the path, otherwise the path's parent directory.
+enum RootFolderResolver {
+    private static let separators: Set<Character> = ["/", "\\"]
+
+    static func bestPath(for path: String, among folders: [String]) -> String? {
+        let path = trimmed(path)
+
+        let folder = folders
+            .map(trimmed)
+            .filter { !$0.isEmpty && path.hasPrefix($0) && isSeparator(path.dropFirst($0.count).first) }
+            .max { $0.count < $1.count }
+
+        if let folder {
+            return String(folder)
+        }
+
+        guard let index = path.lastIndex(where: separators.contains), index > path.startIndex else {
+            return nil
+        }
+
+        return String(path[..<index])
+    }
+
+    private static func trimmed(_ path: String) -> Substring {
+        var path = Substring(path)
+
+        while let last = path.last, separators.contains(last) {
+            path = path.dropLast()
+        }
+
+        return path
+    }
+
+    private static func isSeparator(_ character: Character?) -> Bool {
+        character.map(separators.contains) ?? false
+    }
+}
+
 extension FormatStyle {
     static func decimal<Value>(_ fractionLength: Int) -> DecimalFormatStyle<Value>
         where Self == DecimalFormatStyle<Value> {
