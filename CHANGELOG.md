@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show when a release was previously grabbed or failed
 - Improved x265, H.266, VC1 and VVC codec replacements
 - Open the exact movie on Letterboxd instead of a search
+- Open and search movies and series from Shortcuts and Siri on iOS 27
+- Ask Siri about the movie or series on screen
 
 ### Changed
 - Faster searching in large movie and series libraries

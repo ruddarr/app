@@ -6,7 +6,7 @@ protocol Media: Identifiable, Sendable where ID: Sendable {
     var remotePoster: String? { get }
 
     var searchableHash: String { get }
-    func searchableItem(poster: URL?) -> CSSearchableItem
+    func searchableItem(poster: URL?, instance: Instance) -> CSSearchableItem
 }
 
 struct Tag: Identifiable, Equatable, Codable {

@@ -23,6 +23,9 @@
         }
       }
     },
+    "%@" : {
+      "shouldTranslate" : false
+    },
     "%@ at %@" : {
       "comment" : "(Today/Tomorrow/Yesterday) at (time)",
       "localizations" : {
@@ -5047,6 +5050,9 @@
           }
         }
       }
+    },
+    "Size on Disk" : {
+
     },
     "Slow Instance" : {
       "localizations" : {
