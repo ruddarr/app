@@ -1,6 +1,33 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Add movie to ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Add movie to ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Add series to ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Add series to ${applicationName}",
+              "Add TV series to ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
     "Open ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -25,8 +52,7 @@
           "stringSet" : {
             "state" : "new",
             "values" : [
-              "Search for movie in ${applicationName}",
-              "Add movie to ${applicationName}"
+              "Search for movie in ${applicationName}"
             ]
           }
         }
@@ -40,9 +66,7 @@
             "state" : "new",
             "values" : [
               "Search for series in ${applicationName}",
-              "Search for TV series in ${applicationName}",
-              "Add series to ${applicationName}",
-              "Add TV series to ${applicationName}"
+              "Search for TV series in ${applicationName}"
             ]
           }
         }
